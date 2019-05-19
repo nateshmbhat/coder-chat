@@ -8,14 +8,15 @@ const App: React.FC = () => {
   const [msg , setMsg] = useState('') ; 
   const fadein = useSpring({from : {
     opacity : 0 
-  } , to : {opacity : 1}}) ;
+  } , 
+  to : {opacity : 1}}) ;
 
   return (
     <div className="App">
-     <input onChange={e=>setMsg(e.target.value)} type="text"/>
-      <button onClick={e=>socket.emit('message', 'hello its me')}>Click</button>
+    <input onChange={e=>setMsg(e.target.value)} type="text"/>
+    <button onClick={e=>socket.emit('message', 'hello its me')}>Click</button>
     </div>
   );
 }
 
-export default App;
+export default App ;

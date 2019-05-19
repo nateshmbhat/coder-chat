@@ -1,13 +1,15 @@
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-
-const cors = require("cors") ; 
-
+import express  from 'express';
+import path  from 'path';
+import cookieParser  from 'cookie-parser';
+import logger  from 'morgan';
+import cors from 'cors' 
 const app = require('express')();
-var server = require('http').Server(app);
-var io = require('socket.io')(server);
+import http  from 'http'
+import socketIO  from 'socket.io' ; 
+
+const server = http.Server(app) ; 
+const io = socketIO(server) ; 
+
 
 server.listen( 9000);
 // WARNING: app.listen(80) will NOT work here!
@@ -20,10 +22,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser())
 app.use(cors()) ; 
 
-app.use(express.static(path.join(__dirname, 'public')));
+// app.use(express.static(path.join(__dirname, 'public'))); NO PUBLIC FOLDER IN SERVER SIDE
 
 app.get('/', function (req, res) {
-  res.send('index')
+  res.send('index page')
 });
 
 io.of('/chat').on('connection', (soc)=>{
@@ -32,7 +34,6 @@ io.of('/chat').on('connection', (soc)=>{
   soc.on('message' , (msg)=>{
     console.log('message from : ' , soc.id  , ' : ', msg) ; 
   })
-  
 })
 
 module.exports = {
