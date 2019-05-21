@@ -43,11 +43,11 @@ const ChatHeader: React.FC = () => {
     return (
         <div style={{ 
                 background: 'linear-gradient(#8E8DE5 , #6B7CD7)' , 
-                marginBottom:'1px',
                 zIndex :9 , 
                 boxShadow:'0.1px 0.1px 5px black' , 
                 gridColumn : '3 / 13' ,
-                gridRow:'1 / 3'  
+                // gridRow:'1 / 3'  ,
+                height:'50px'
             }} >
         </div>
     );
@@ -64,7 +64,24 @@ const ChatSection: React.FC = () => {
         }} >
 
             <ChatMessage msg="Hello its me" />
-            <ChatMessage msg="dslfdj flsd fdkls fdsf dsl fdkls fl dlskflHellodslfdj flsd fdkls fdsf dsl fdkls fdslfdj flsd fdkls fdsf dsl fdkls fdslfdj flsd fdkls fdsf dsl fdkls fdslfdj flsd fdkls fdsf dsl fdkls fdslfdj flsd fdkls fdsf dsl fdkls fdslfdj flsd fdkls fdsf dsl fdkls fdslfdj flsd fdkls fdsf dsl fdkls f its me" />
+            <ChatMessage msg="Proident nisi ut enim elit. Culpa irure officia qui elit veniam veniam commodo tempor nostrud laborum. Id consequat in ea consequat voluptate magna do quis aliqua. Est et sunt dolore est consectetur sit consectetur reprehenderit." />
+            <ChatMessage msg="Hello its me" />
+            <ChatMessage msg="Proident nisi ut enim elit. Culpa irure officia qui elit veniam veniam commodo tempor nostrud laborum. Id consequat in ea consequat voluptate magna do quis aliqua. Est et sunt dolore est consectetur sit consectetur reprehenderit." />
+
+            <ChatMessage msg="Hello its me" />
+            <ChatMessage msg="Proident nisi ut enim elit. Culpa irure officia qui elit veniam veniam commodo tempor nostrud laborum. Id consequat in ea consequat voluptate magna do quis aliqua. Est et sunt dolore est consectetur sit consectetur reprehenderit." />
+
+            <ChatMessage msg="Hello its me" />
+            <ChatMessage msg="Proident nisi ut enim elit. Culpa irure officia qui elit veniam veniam commodo tempor nostrud laborum. Id consequat in ea consequat voluptate magna do quis aliqua. Est et sunt dolore est consectetur sit consectetur reprehenderit." />
+            <ChatMessage msg="Hello its me" />
+            <ChatMessage msg="Hello its me" />
+            <ChatMessage msg="Hello its me" />
+            <ChatMessage msg="Proident nisi ut enim elit. Culpa irure officia qui elit veniam veniam commodo tempor nostrud laborum. Id consequat in ea consequat voluptate magna do quis aliqua. Est et sunt dolore est consectetur sit consectetur reprehenderit." />
+
+
+            <ChatMessage msg="Proident nisi ut enim elit. Culpa irure officia qui elit veniam veniam commodo tempor nostrud laborum. Id consequat in ea consequat voluptate magna do quis aliqua. Est et sunt dolore est consectetur sit consectetur reprehenderit." />
+
+            <ChatMessage msg="Proident nisi ut enim elit. Culpa irure officia qui elit veniam veniam commodo tempor nostrud laborum. Id consequat in ea consequat voluptate magna do quis aliqua. Est et sunt dolore est consectetur sit consectetur reprehenderit." />
 
         </div>
     );

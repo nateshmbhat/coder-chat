@@ -2,12 +2,13 @@ import React from 'react' ;
 
 interface ChatMessageProps {
     msg : string , 
-    sender? : string
+    sender? : string , 
+    isMyMessage? : boolean
 }
 
 const ChatMessage : React.FC<ChatMessageProps> = (props)=>{
     return(
-        <div style={{ margin:'20px', }}>
+        <div style={{ margin:'20px', position:'relative' }}>
                 <p style={{
                     backgroundColor:'#C6E3FF' , 
                     display:'inline-block' , 

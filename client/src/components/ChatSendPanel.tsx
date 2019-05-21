@@ -1,9 +1,11 @@
-import React, { useContext } from 'react' ; 
+import React, { useContext, useState } from 'react' ; 
 import globalContext from '../store/globalContext';
+import { sendChatMessage } from '../handlers/chat/sender';
 
 
 const ChatSendPanel :React.FC = ()=>{
     const totalRows = useContext(globalContext).totalRows ;
+    const [message , setMessage] = useState('') ; 
 
     return (
         <>
@@ -19,8 +21,8 @@ const ChatSendPanel :React.FC = ()=>{
         <div style={{
             backgroundColor:'#B2B4BE' , 
             gridColumn:`3 / 13` ,
-            paddingBottom:'5px'  ,
-            paddingTop:'5px' , 
+            paddingBottom:'10px'  ,
+            paddingTop:'10px' , 
             // gridRow : `${totalRows-2} / ${totalRows+1}`,
             height:'50px' , 
         }} 
@@ -52,8 +54,9 @@ const ChatSendPanel :React.FC = ()=>{
                 fontFamily:'caladea' , 
                 MozBoxSizing:'border-box' ,
            }}
-            >
-            </textarea>
+           onChange={e=>setMessage(e.target.value)}
+           value={message}
+            ></textarea>
 
             <span style={{
                 borderRadius:'50%',
@@ -63,7 +66,9 @@ const ChatSendPanel :React.FC = ()=>{
                 transform:'translateX(-45px)',
                 backgroundColor:'#CFDCEE' , 
                 boxShadow:'1px 1px 5px black',
-            }} >
+            }}
+            onClick={e=>sendChatMessage(message)}
+            >
                 🚀
             </span>
 
