@@ -1,6 +1,7 @@
+import { ChatEvents, ChatMessageReceiveBody} from "../../types/mytypes";
 
 const registerCallbacks = (sock : SocketIOClient.Socket )=>{
-    sock.on('chat-message' , (msg:any)=>{
+    sock.on( ChatEvents.CHATMESSAGE , (msg:ChatMessageReceiveBody)=>{
       console.log("message from server : " , msg ) ; 
     })
 }    

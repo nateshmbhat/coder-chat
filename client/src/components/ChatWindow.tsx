@@ -63,26 +63,6 @@ const ChatSection: React.FC = () => {
                 gridRow:`2 / ${totalRows+1}` 
         }} >
 
-            <ChatMessage msg="Hello its me" />
-            <ChatMessage msg="Proident nisi ut enim elit. Culpa irure officia qui elit veniam veniam commodo tempor nostrud laborum. Id consequat in ea consequat voluptate magna do quis aliqua. Est et sunt dolore est consectetur sit consectetur reprehenderit." />
-            <ChatMessage msg="Hello its me" />
-            <ChatMessage msg="Proident nisi ut enim elit. Culpa irure officia qui elit veniam veniam commodo tempor nostrud laborum. Id consequat in ea consequat voluptate magna do quis aliqua. Est et sunt dolore est consectetur sit consectetur reprehenderit." />
-
-            <ChatMessage msg="Hello its me" />
-            <ChatMessage msg="Proident nisi ut enim elit. Culpa irure officia qui elit veniam veniam commodo tempor nostrud laborum. Id consequat in ea consequat voluptate magna do quis aliqua. Est et sunt dolore est consectetur sit consectetur reprehenderit." />
-
-            <ChatMessage msg="Hello its me" />
-            <ChatMessage msg="Proident nisi ut enim elit. Culpa irure officia qui elit veniam veniam commodo tempor nostrud laborum. Id consequat in ea consequat voluptate magna do quis aliqua. Est et sunt dolore est consectetur sit consectetur reprehenderit." />
-            <ChatMessage msg="Hello its me" />
-            <ChatMessage msg="Hello its me" />
-            <ChatMessage msg="Hello its me" />
-            <ChatMessage msg="Proident nisi ut enim elit. Culpa irure officia qui elit veniam veniam commodo tempor nostrud laborum. Id consequat in ea consequat voluptate magna do quis aliqua. Est et sunt dolore est consectetur sit consectetur reprehenderit." />
-
-
-            <ChatMessage msg="Proident nisi ut enim elit. Culpa irure officia qui elit veniam veniam commodo tempor nostrud laborum. Id consequat in ea consequat voluptate magna do quis aliqua. Est et sunt dolore est consectetur sit consectetur reprehenderit." />
-
-            <ChatMessage msg="Proident nisi ut enim elit. Culpa irure officia qui elit veniam veniam commodo tempor nostrud laborum. Id consequat in ea consequat voluptate magna do quis aliqua. Est et sunt dolore est consectetur sit consectetur reprehenderit." />
-
         </div>
     );
 }

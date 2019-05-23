@@ -43,10 +43,11 @@ const ChatSendPanel :React.FC = ()=>{
                 backgroundColor:'#F8F8F8' , 
                 paddingLeft:'20px',
                 paddingRight:'50px',
-                borderRadius:'50px' , 
+                borderRadius:'15px' , 
                 height:'100%' , 
                 width:'90%', 
                 marginLeft:'50px' , 
+                resize:'none' , 
                 outline:'none' , 
                 boxSizing: 'border-box' , 
                 WebkitBoxSizing:'border-box' , 
@@ -67,7 +68,7 @@ const ChatSendPanel :React.FC = ()=>{
                 backgroundColor:'#CFDCEE' , 
                 boxShadow:'1px 1px 5px black',
             }}
-            onClick={e=>sendChatMessage(message)}
+            onClick={e=>sendChatMessage({sendername:'Anonymous' , msg: message})}
             >
                 🚀
             </span>

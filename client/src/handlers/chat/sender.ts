@@ -1,13 +1,10 @@
 import { chatsocket, initChatSocket } from "./chat";
+import { ChatEvents, ChatMessageSendingBody } from "../../types/mytypes";
 initChatSocket() ;
 
-enum EVENTS {
-    CHATMESSAGE = 'chat-message' 
-};
-
-const sendChatMessage=(msg:string)=>{
+const sendChatMessage=(msg:ChatMessageSendingBody)=>{
    console.log('sending message to server : ' , msg);
-   chatsocket.emit( EVENTS.CHATMESSAGE , msg )  ; 
+   chatsocket.emit( ChatEvents.CHATMESSAGE , msg )  ; 
 }
 
 export {sendChatMessage} ; 
