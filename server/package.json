@@ -5,8 +5,8 @@
   "scripts": {
     "start": "nodemon dist/index.js",
     "dev": "nodemon src/app.ts",
-    "build": "tsc -p ." , 
-    "clean" : "rm dist -rf" 
+    "build": "tsc -p .",
+    "clean": "rm dist -rf"
   },
   "dependencies": {
     "@babel/register": "^7.4.4",

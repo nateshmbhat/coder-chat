@@ -8,7 +8,11 @@ interface ChatMessageProps {
 
 const ChatMessage : React.FC<ChatMessageProps> = (props)=>{
     return(
-        <div style={{ margin:'20px', position:'relative' }}>
+        <div style={{ margin:'20px', 
+        flexDirection:'column' ,
+        alignContent: props.isMyMessage ? 'right': 'left' , 
+        display:'flex' }}>
+            <div>
                 <p style={{
                     backgroundColor:'#C6E3FF' , 
                     display:'inline-block' , 
@@ -32,6 +36,8 @@ const ChatMessage : React.FC<ChatMessageProps> = (props)=>{
                 }}>
                     {props.msg}
                 </p>
+
+            </div>
         </div>
     );
 }

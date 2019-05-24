@@ -1,11 +1,15 @@
 import React, { useContext } from 'react';
-import { ChatMessage } from './ChatMessage';
 import ChatSendPanel from './ChatSendPanel';
-import globalContext from '../store/globalContext';
+import  ChatSection from './ChatSection';
+import ContactsSection from './ContactsPanel' ; 
+import { connect } from 'react-redux';
 
+interface ChatRoomProp{
+    totalRows : number 
+};
 
-const ChatRoom = () => {
-    const totalRows = useContext(globalContext).totalRows ; 
+const ChatRoom = (props : ChatRoomProp) => {
+    const totalRows = props.totalRows
     return (
         <>
             <div style={{
@@ -23,23 +27,7 @@ const ChatRoom = () => {
     );
 }
 
-const ContactsSection: React.FC = () => {
-
-    const totalRows = useContext(globalContext).totalRows ; 
-    return (
-        <div style={{ 
-            backgroundColor: '#c4c4c4', 
-            zIndex :10 , 
-            gridColumn: '1 / 3' , 
-            boxShadow:'0.1px -15px 15px black' , 
-            gridRow:`1 / ${totalRows+1}` 
-            }} >
-        </div>
-    );
-}
-
 const ChatHeader: React.FC = () => {
-    const totalRows = useContext(globalContext).totalRows ; 
     return (
         <div style={{ 
                 background: 'linear-gradient(#8E8DE5 , #6B7CD7)' , 
@@ -53,18 +41,11 @@ const ChatHeader: React.FC = () => {
     );
 }
 
-const ChatSection: React.FC = () => {
-    const totalRows = useContext(globalContext).totalRows ; 
-    return (
-        <div style={{ 
-                backgroundColor: '#5A657B' , 
-                overflowY:'scroll' , 
-                gridColumn:'3 / 13' , 
-                gridRow:`2 / ${totalRows+1}` 
-        }} >
 
-        </div>
-    );
+const mapStateToProps = (state:ChatRoomProp)=>{
+    return {
+        totalRows : state.totalRows 
+    }
 }
 
-export default ChatRoom ;
+export default connect(mapStateToProps)(ChatRoom) ;

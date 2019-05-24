@@ -1,10 +1,13 @@
-import React, { useContext, useState } from 'react' ; 
-import globalContext from '../store/globalContext';
+import React, { useState } from 'react' ; 
 import { sendChatMessage } from '../handlers/chat/sender';
+import {connect, MapStateToProps } from 'react-redux' ; 
 
+interface ChatSendPanelStateProps{
+    totalRows : number
+};
 
-const ChatSendPanel :React.FC = ()=>{
-    const totalRows = useContext(globalContext).totalRows ;
+const ChatSendPanel :React.FC<ChatSendPanelStateProps> = (props)=>{
+    const totalRows = props.totalRows ; 
     const [message , setMessage] = useState('') ; 
 
     return (
@@ -80,4 +83,8 @@ const ChatSendPanel :React.FC = ()=>{
     )
 } 
 
-export default ChatSendPanel ; 
+const mapStateToProps = (state: ChatSendPanelStateProps) => ({
+       totalRows : state.totalRows
+});
+
+export default connect(mapStateToProps)(ChatSendPanel) ; 
