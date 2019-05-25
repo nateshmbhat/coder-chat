@@ -8,7 +8,8 @@ const registerCallbacks = (soc : socketIo.Socket, io : SocketIO.Server )=>{
       console.log('message from : ' , soc.id  , ' : ', msgObject) ; 
       
       soc.broadcast.emit( ChatEvents.CHATMESSAGE  , {
-        senderid : soc.id , 
+        senderSocketId : soc.id , 
+        senderid : msgObject.senderid , 
         msg : msgObject.msg , 
         sendername : msgObject.sendername
       } as ChatMessageSendingBody) ; 

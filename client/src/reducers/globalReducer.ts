@@ -7,7 +7,9 @@ export interface GlobalStateType {
     serverConnection : boolean , 
     internetAccess : boolean , 
     sessions : SessionType[] , 
-    chatMessages : ChatMessage[]
+    chatMessages : ChatMessage[] , 
+    myUserId : string ,
+    myUsername : string 
 }
 
 const initialState : GlobalStateType = {
@@ -15,7 +17,9 @@ const initialState : GlobalStateType = {
     internetAccess : false ,
     serverConnection : false , 
     sessions : [] , 
-    chatMessages : [],
+    chatMessages : [{msg:'hello its me', sendername:'Natesh' , senderid:'nateshmbhat',sessionid: Date() , time : new Date()}],
+    myUserId : 'nateshmbhat' , 
+    myUsername : 'Natesh'
 }
 
 initialState.sessions.push({
@@ -23,7 +27,7 @@ initialState.sessions.push({
     date :new Date()
 })
 
-const globalReducer : Reducer  = (state = initialState , action: AnyAction)=>{
+const globalReducer : Reducer  = (state : GlobalStateType = initialState , action: AnyAction)=>{
 
     switch(action.type){
         case ActionType.SET_INTERNET_ACCESS :
@@ -36,6 +40,11 @@ const globalReducer : Reducer  = (state = initialState , action: AnyAction)=>{
             return{
                 ...state , 
                 serverConnection : action.payload as boolean
+            }
+        case ActionType.ADD_CHAT_MESSAGE : 
+            return {
+                ...state , 
+                chatMessages : [...state.chatMessages , action.payload as ChatMessage ]
             }
     }
     return state ; 

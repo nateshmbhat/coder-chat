@@ -5,6 +5,7 @@ interface ContactsSectionProp {
     totalRows : number ;
 }
 
+// This is the left panel that runs from top to bottom of the page that is shown when chatting
 const ContactsSection: React.FC<ContactsSectionProp> = (props) => {
 
     const totalRows = props.totalRows

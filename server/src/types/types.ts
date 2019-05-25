@@ -4,12 +4,14 @@ enum ChatEvents{
 };
 
 interface ChatMessageSendingBody{
+    senderSocketId : string, 
     senderid : string , 
     sendername : string  , 
     msg : string
 }
 
 interface ChatMessageReceiveBody{
+    senderid : string
     sendername : string  , 
     msg : string
 }

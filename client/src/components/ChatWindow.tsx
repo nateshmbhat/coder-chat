@@ -3,6 +3,7 @@ import ChatSendPanel from './ChatSendPanel';
 import  ChatSection from './ChatSection';
 import ContactsSection from './ContactsPanel' ; 
 import { connect } from 'react-redux';
+import { ChatHeader } from './ChatHeader';
 
 interface ChatRoomProp{
     totalRows : number 
@@ -19,7 +20,7 @@ const ChatRoom = (props : ChatRoomProp) => {
                 gridTemplateRows  : `repeat(${totalRows},1fr)` , 
             }}>
                 <ContactsSection />
-                <ChatHeader />
+                <ChatHeader/>
                 <ChatSection/>
                 <ChatSendPanel/>
             </div>
@@ -27,19 +28,6 @@ const ChatRoom = (props : ChatRoomProp) => {
     );
 }
 
-const ChatHeader: React.FC = () => {
-    return (
-        <div style={{ 
-                background: 'linear-gradient(#8E8DE5 , #6B7CD7)' , 
-                zIndex :9 , 
-                boxShadow:'0.1px 0.1px 5px black' , 
-                gridColumn : '3 / 13' ,
-                // gridRow:'1 / 3'  ,
-                height:'50px'
-            }} >
-        </div>
-    );
-}
 
 
 const mapStateToProps = (state:ChatRoomProp)=>{

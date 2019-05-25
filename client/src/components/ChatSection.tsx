@@ -1,13 +1,26 @@
 import { connect } from "react-redux";
 import React from 'react' ; 
 import { ChatMessage } from "./ChatMessage";
+import { ChatMessage as ChatMessageType } from "../types/mytypes";
 
 interface ChatSectionStateProp{
-    totalRows : number 
+    totalRows : number  ,
+    chatMessages : ChatMessageType[]
+    myUserId : string , 
+    myUserName : string
 }
 
-const ChatSection: React.FC<ChatSectionStateProp> = (prop) => {
-    const totalRows = prop.totalRows
+const ChatSection: React.FC<ChatSectionStateProp> = (props) => {
+    const totalRows = props.totalRows
+
+    const chatMessages = props.chatMessages.map((chat,idx)=>{
+
+        console.log('props.myuserid = ' , props.myUserId , ' chat.senderid = ' , chat.senderid) ; 
+        return(
+            <ChatMessage key={idx} msg={chat.msg} sender={chat.sendername} time={chat.time} isMyMessage={props.myUserId==chat.senderid} />
+        );
+    })
+
     return (
         <div style={{ 
                 backgroundColor: '#5A657B' , 
@@ -17,14 +30,17 @@ const ChatSection: React.FC<ChatSectionStateProp> = (prop) => {
                 gridRow:`2 / ${totalRows+1}` 
         }} >
 
-        <ChatMessage msg={"hello I tsm eldskjf "} isMyMessage={true}/>
-        
+        {chatMessages}
+
         </div>
     );
 }
 
 const mapStateToProps = (state:ChatSectionStateProp)=>({
-    totalRows : state.totalRows
+    totalRows : state.totalRows , 
+    chatMessages : state.chatMessages , 
+    myUserId : state.myUserId , 
+    myUserName : state.myUserName 
 });
 
 export default connect(mapStateToProps)(ChatSection) ; 

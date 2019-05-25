@@ -1,6 +1,7 @@
 import React, { useState } from 'react' ; 
 import { sendChatMessage } from '../handlers/chat/sender';
-import {connect, MapStateToProps } from 'react-redux' ; 
+import {connect} from 'react-redux' ; 
+import Radium from 'radium' ;
 
 interface ChatSendPanelStateProps{
     totalRows : number
@@ -26,7 +27,6 @@ const ChatSendPanel :React.FC<ChatSendPanelStateProps> = (props)=>{
             gridColumn:`3 / 13` ,
             paddingBottom:'10px'  ,
             paddingTop:'10px' , 
-            // gridRow : `${totalRows-2} / ${totalRows+1}`,
             height:'50px' , 
         }} 
         >
@@ -71,7 +71,7 @@ const ChatSendPanel :React.FC<ChatSendPanelStateProps> = (props)=>{
                 backgroundColor:'#CFDCEE' , 
                 boxShadow:'1px 1px 5px black',
             }}
-            onClick={e=>sendChatMessage({sendername:'Anonymous' , msg: message})}
+            onClick={e=>sendChatMessage(message)}
             >
                 🚀
             </span>
@@ -82,6 +82,7 @@ const ChatSendPanel :React.FC<ChatSendPanelStateProps> = (props)=>{
         </>
     )
 } 
+
 
 const mapStateToProps = (state: ChatSendPanelStateProps) => ({
        totalRows : state.totalRows
