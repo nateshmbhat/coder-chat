@@ -15,7 +15,7 @@ const ChatRoom = (props : ChatRoomProp) => {
         <>
             <div style={{
                 display: 'grid' ,
-                height:'100%' , 
+                height:'100vh' , 
                 gridTemplateColumns  : 'repeat(12,1fr)' , 
                 gridTemplateRows  : `repeat(${totalRows},1fr)` , 
             }}>

@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import {useSpring , animated} from 'react-spring' ; 
 import ChatRoom from './components/ChatWindow';
+import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
+import { LoginPage} from './components/LoginBox';
 
 const App: React.FC = () => {
-  return(
-    <div style={{height:'100vh'}}>
-      <ChatRoom/>
-    </div>
+  return (
+    <Router>
+      <Switch>
+        <Route path="/" exact component={LoginPage} />
+        <Route path="/chat" exact component={ChatRoom} />
+      </Switch>
+    </Router>
   );
 }
 
-export default App ;
+export default App

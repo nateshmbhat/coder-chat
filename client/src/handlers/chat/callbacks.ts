@@ -3,6 +3,8 @@ import { ActionType } from "../../types/reducerTypes";
 import { globalStore } from "../../store/globalStore";
 
 const registerCallbacks = (sock : SocketIOClient.Socket )=>{
+    console.log('Registering Callbacks... ');
+
     sock.on(ChatEvents.CHATMESSAGE , (msgObject:ChatMessageReceiveBody)=>{
       console.log("message from server : " , msgObject ) ; 
 
