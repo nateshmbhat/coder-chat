@@ -46,6 +46,17 @@ const globalReducer : Reducer  = (state : GlobalStateType = initialState , actio
                 ...state , 
                 chatMessages : [...state.chatMessages , action.payload as ChatMessage ]
             }
+        case ActionType.SET_USERNAME : 
+            return {
+                ...state , 
+                myUsername:action.payload as string 
+            }
+
+        case ActionType.SET_USERID: 
+            return {
+                ...state , 
+                myUserId:action.payload as string 
+            }
     }
     return state ; 
 }

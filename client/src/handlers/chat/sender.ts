@@ -7,6 +7,9 @@ import { ActionType } from "../../types/reducerTypes";
 initChatSocket() ;
 
 const sendChatMessage=(msgString:string)=>{
+
+   if(msgString.length==0) return ;  //reject empty messages
+
    const globalState : GlobalStateType = globalStore.getState() ; 
 
    const date = new Date() ; 
