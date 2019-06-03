@@ -2,12 +2,15 @@ import { connect } from "react-redux";
 import React from 'react' ; 
 import { ChatMessage } from "./ChatMessage";
 import { ChatMessage as ChatMessageType } from "../types/mytypes";
+import LiveCodeEditor from "./LiveCodeEditor";
 
 interface ChatSectionStateProp{
     totalRows : number  ,
     chatMessages : ChatMessageType[]
     myUserId : string , 
-    myUserName : string
+    myUserName : string , 
+    liveCodingOpen : boolean  , 
+    liveCodeText : string,
 }
 
 const ChatSection: React.FC<ChatSectionStateProp> = (props) => {
@@ -30,7 +33,11 @@ const ChatSection: React.FC<ChatSectionStateProp> = (props) => {
                 gridRow:`2 / ${totalRows+1}` 
         }} >
 
-        {chatMessages}
+        {
+            props.liveCodingOpen 
+            && <LiveCodeEditor/>
+            || chatMessages
+        }
 
         </div>
     );
@@ -40,7 +47,9 @@ const mapStateToProps = (state:ChatSectionStateProp)=>({
     totalRows : state.totalRows , 
     chatMessages : state.chatMessages , 
     myUserId : state.myUserId , 
-    myUserName : state.myUserName 
+    myUserName : state.myUserName  , 
+    liveCodingOpen: state.liveCodingOpen , 
+    liveCodeText : state.liveCodeText , 
 });
 
 export default connect(mapStateToProps)(ChatSection) ; 

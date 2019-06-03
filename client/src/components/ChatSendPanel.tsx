@@ -4,12 +4,15 @@ import { connect } from 'react-redux';
 import computerIcon from './icons/computer.svg';
 import styled from 'styled-components';
 import {ShadowAndHoverShadow} from '../styled-component-styles/styles' ; 
+import { Dispatch } from 'redux';
+import { ActionType } from '../types/reducerTypes';
 
-interface ChatSendPanelStateProps {
-    totalRows: number
+interface ChatSendPanelProps {
+    totalRows: number , 
+    toggleLiveCodeEditor : ()=>void
 };
 
-const ChatSendPanel: React.FC<ChatSendPanelStateProps> = (props) => {
+const ChatSendPanel= (props:ChatSendPanelProps) => {
     const totalRows = props.totalRows;
     const [message, setMessage] = useState('');
 
@@ -27,8 +30,7 @@ const ChatSendPanel: React.FC<ChatSendPanelStateProps> = (props) => {
                     transition:all 0.1s ;
                     transform : scale(1.05) ; 
                     filter: drop-shadow( 3px 3px 2px rgba(0, 0, 0, .2));
-                }
-    `
+                }` ; 
 
     return (
         <>
@@ -51,7 +53,7 @@ const ChatSendPanel: React.FC<ChatSendPanelStateProps> = (props) => {
             }}
             >
 
-                <ComputerIcon src={computerIcon} />
+                <ComputerIcon onClick={(e)=>props.toggleLiveCodeEditor()} src={computerIcon} />
 
                 <div style={{
                     height: '100%', width: '100%',
@@ -106,8 +108,14 @@ const ChatSendPanel: React.FC<ChatSendPanelStateProps> = (props) => {
 }
 
 
-const mapStateToProps = (state: ChatSendPanelStateProps) => ({
+const mapStateToProps = (state: ChatSendPanelProps) => ({
     totalRows: state.totalRows
 });
 
-export default connect(mapStateToProps)(ChatSendPanel); 
+const mapDispatchToProps = (dispatch : Dispatch)=>{
+    return {
+        toggleLiveCodeEditor : ()=>dispatch({type:ActionType.TOGGLE_LIVECODE_EDITOR}) 
+    }
+}
+
+export default connect(mapStateToProps , mapDispatchToProps)(ChatSendPanel); 

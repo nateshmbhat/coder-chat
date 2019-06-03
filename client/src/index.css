@@ -15,3 +15,16 @@ code {
 .btn-hover:hover{
   box-shadow: 10px 10px 10px black ; 
 }
+
+.live-code-editor{
+  font-family:'Fira code'  ; 
+  font-size: 16px ;
+}
+
+.ReactCodeMirror, .CodeMirror{
+  height : 100% !important; 
+}
+
+.CodeMirror-linenumbers{
+  margin-right: 10px ; 
+}
