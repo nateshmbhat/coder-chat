@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import React from 'react' ; 
+import React, { Suspense } from 'react' ; 
 import { ChatMessage } from "./ChatMessage";
 import { ChatMessage as ChatMessageType } from "../types/mytypes";
 import LiveCodeEditor from "./LiveCodeEditor";
@@ -34,8 +34,10 @@ const ChatSection: React.FC<ChatSectionStateProp> = (props) => {
         }} >
 
         {
-            props.liveCodingOpen 
-            && <LiveCodeEditor/>
+            props.liveCodingOpen &&
+            <Suspense fallback={<h1>LOADING....</h1>}>
+                <LiveCodeEditor/>
+            </Suspense>
             || chatMessages
         }
 

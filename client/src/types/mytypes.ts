@@ -117,6 +117,25 @@ const CodeMirrorThemeToCSS: {[key:string] : string} = {
         zenburn : "zenburn",
 }
 
+const CodeMirrorLanguageToModePaths : {[key:string] : string}= {
+    java : 'codemirror/mode/clike/clike', 
+    cpp: 'codemirror/mode/clike/clike' , 
+    c : 'codemirror/mode/clike/clike' , 
+    python : 'codemirror/mode/python/python' , 
+    javascript : 'codemirror/mode/javascript/javascript' , 
+    html : 'codemirror/mode/htmlmixed/htmlmixed' , 
+
+}
+
+const CodeMirrorLanguageToMIMEType : {[key:string] : string}= {
+    java : 'text/x-java', 
+    cpp: 'text/x-c++src' , 
+    c : 'text/x-csrc' , 
+    python : 'text/x-python' , 
+    javascript : 'javascript' , 
+    html : 'text/html' , 
+}
+
 export interface ChatMessageReceiveBody {
     senderid: string,
     sendername?: string,
@@ -142,4 +161,4 @@ export interface SessionType {
     date: Date
 }
 
-export { SocketEvents as ChatEvents , CodeMirrorThemes , CodeMirrorThemeToCSS }; 
+export { SocketEvents as ChatEvents , CodeMirrorThemes , CodeMirrorThemeToCSS  , CodeMirrorLanguageToMIMEType , CodeMirrorLanguageToModePaths}; 
