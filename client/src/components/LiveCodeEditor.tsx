@@ -3,9 +3,8 @@ import { connect } from 'react-redux';
 import CodeMirror from 'react-codemirror';
 import { ActionType } from '../types/reducerTypes';
 import { Dispatch } from 'redux';
-import styled from 'styled-components';
 import { CodeMirrorThemeToCSS, CodeMirrorLanguageToMIMEType, CodeMirrorLanguageToModePaths } from '../types/mytypes';
-import { Button, Dropdown } from 'semantic-ui-react';
+import { Button, Dropdown, Icon } from 'semantic-ui-react';
 
 require('codemirror/lib/codemirror.css');
 
@@ -25,26 +24,24 @@ interface LiveCodeEditorProps {
     setLiveCodeText: (text: string) => void
 }
 
-
-
 const LiveCodeEditor = (props: LiveCodeEditorProps) => {
     const [theme, setTheme] = useState('dracula');
     const [vimEnabled, setVimEnabled] = useState(false);
     const [codeLanguage, setCodeLanguage] = useState('cpp');
+    const [showSettings, setShowSettings] = useState(false);
 
     const loadTheme = async (theme: string) => require(`codemirror/theme/${theme}.css`);
 
     const codemirrorChangeHandler = (newValue: string, change: CodeMirror.EditorChange) => {
-
+        props.setLiveCodeText(newValue) ; 
     }
 
     const EditorSettingsPanel = () => (
-        <div style={{ position: 'absolute', zIndex: 10 }} >
-
             <div style={{
                 display: 'flex',
                 flexDirection: 'row',
                 justifyContent: 'flex-end',
+                opacity:0.95
             }}>
 
                 <Dropdown placeholder='Theme' value={theme} search selection options={
@@ -70,7 +67,6 @@ const LiveCodeEditor = (props: LiveCodeEditorProps) => {
 
                 <Button toggle active={vimEnabled} onClick={e => setVimEnabled(!vimEnabled)}>Vim</Button>
             </div>
-        </div>
     );
 
     useEffect(() => {
@@ -90,7 +86,13 @@ const LiveCodeEditor = (props: LiveCodeEditorProps) => {
     return (
         <>
             <div style={{ display: 'relative', height: '100%' }}>
-                <CodeMirror onChange={codemirrorChangeHandler} value={props.liveCodeText} options={options} />
+                <div style={{ opacity:0.8 , position: 'absolute', zIndex: 10, textAlign:'right' ,width:'100%' }}>
+                    <Button toggle active={showSettings} onClick={e=>setShowSettings(!showSettings)} circular icon>
+                        <Icon name='setting' />
+                    </Button>
+                    {showSettings && <EditorSettingsPanel/>}
+                </div>
+                <CodeMirror autoFocus onChange={codemirrorChangeHandler} value={props.liveCodeText} options={options} />
             </div>
         </>
 

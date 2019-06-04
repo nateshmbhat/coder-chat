@@ -3,16 +3,17 @@ import { sendChatMessage } from '../handlers/chat/sender';
 import { connect } from 'react-redux';
 import computerIcon from './icons/computer.svg';
 import styled from 'styled-components';
-import {ShadowAndHoverShadow} from '../styled-component-styles/styles' ; 
+import { ShadowAndHoverShadow } from '../styled-component-styles/styles';
 import { Dispatch } from 'redux';
 import { ActionType } from '../types/reducerTypes';
+import { Button, Icon } from 'semantic-ui-react';
 
 interface ChatSendPanelProps {
-    totalRows: number , 
-    toggleLiveCodeEditor : ()=>void
+    totalRows: number,
+    toggleLiveCodeEditor: () => void
 };
 
-const ChatSendPanel= (props:ChatSendPanelProps) => {
+const ChatSendPanel = (props: ChatSendPanelProps) => {
     const totalRows = props.totalRows;
     const [message, setMessage] = useState('');
 
@@ -30,7 +31,7 @@ const ChatSendPanel= (props:ChatSendPanelProps) => {
                     transition:all 0.1s ;
                     transform : scale(1.05) ; 
                     filter: drop-shadow( 3px 3px 2px rgba(0, 0, 0, .2));
-                }` ; 
+                }` ;
 
     return (
         <>
@@ -53,13 +54,13 @@ const ChatSendPanel= (props:ChatSendPanelProps) => {
             }}
             >
 
-                <ComputerIcon onClick={(e)=>props.toggleLiveCodeEditor()} src={computerIcon} />
+                <ComputerIcon title="Live Code" onClick={(e) => props.toggleLiveCodeEditor()} src={computerIcon} />
 
                 <div style={{
                     height: '100%', width: '100%',
                     display: 'flex',
-                    marginRight:'30px',
-                    position:'relative' , 
+                    marginRight: '30px',
+                    position: 'relative',
                     flexDirection: 'row',
                     justifyContent: 'center',
                     justifyItems: 'center',
@@ -67,40 +68,27 @@ const ChatSendPanel= (props:ChatSendPanelProps) => {
                 }}
                 >
 
-                <textarea
-                    style={{
-                        backgroundColor: '#F8F8F8',
-                        paddingLeft: '5px',
-                        paddingRight: '50px',
-                        borderRadius: '8px',
-                        height: '100%',
-                        width: '100%',
-                        resize: 'none',
-                        outline: 'none',
-                        boxSizing: 'border-box',
-                        WebkitBoxSizing: 'border-box',
-                        fontSize: '100%',
-                        fontFamily: 'caladea',
-                        MozBoxSizing: 'border-box',
-                    }}
-                    onChange={e => setMessage(e.target.value)}
-                    value={message}
-                ></textarea>
-
-                    <ShadowAndHoverShadow>
-                        <span style={{
-                            borderRadius: '50%',
-                            padding: '5px',
-                            userSelect: 'none',
-                            position:'absolute',
-                            fontSize: '170%',
-                            transform: 'translate3d(-45px, -21px, 0px)',
-                            backgroundColor: 'rgba(2, 3, 4, 0.33)',
+                    <textarea
+                        style={{
+                            backgroundColor: '#F8F8F8',
+                            paddingLeft: '5px',
+                            paddingRight: '5px',
+                            borderTopLeftRadius: '8px',
+                            height: '100%',
+                            width: '100%',
+                            resize: 'none',
+                            outline: 'none',
+                            boxSizing: 'border-box',
+                            WebkitBoxSizing: 'border-box',
+                            fontSize: '100%',
+                            fontFamily: 'caladea',
+                            MozBoxSizing: 'border-box',
                         }}
-                            onClick={e => sendChatMessage(message)}
-                        > 🚀 </span>
-                    </ShadowAndHoverShadow>
+                        onChange={e => setMessage(e.target.value)}
+                        value={message}
+                    ></textarea>
 
+                    <Button icon compact size='large' color='olive' onClick={e=>setMessage(message)} > 🚀 </Button>
                 </div>
             </div>
         </>
@@ -112,10 +100,10 @@ const mapStateToProps = (state: ChatSendPanelProps) => ({
     totalRows: state.totalRows
 });
 
-const mapDispatchToProps = (dispatch : Dispatch)=>{
+const mapDispatchToProps = (dispatch: Dispatch) => {
     return {
-        toggleLiveCodeEditor : ()=>dispatch({type:ActionType.TOGGLE_LIVECODE_EDITOR}) 
+        toggleLiveCodeEditor: () => dispatch({ type: ActionType.TOGGLE_LIVECODE_EDITOR })
     }
 }
 
-export default connect(mapStateToProps , mapDispatchToProps)(ChatSendPanel); 
+export default connect(mapStateToProps, mapDispatchToProps)(ChatSendPanel); 
