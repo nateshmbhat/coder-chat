@@ -25,9 +25,7 @@ interface LiveCodeEditorProps {
     setLiveCodeText: (text: string) => void
 }
 
-const updateHandler = (newValue: string, change: CodeMirror.EditorChange) => {
-    console.log(newValue, change)
-}
+
 
 const LiveCodeEditor = (props: LiveCodeEditorProps) => {
     const [theme, setTheme] = useState('dracula');
@@ -35,6 +33,45 @@ const LiveCodeEditor = (props: LiveCodeEditorProps) => {
     const [codeLanguage, setCodeLanguage] = useState('cpp');
 
     const loadTheme = async (theme: string) => require(`codemirror/theme/${theme}.css`);
+
+    const codemirrorChangeHandler = (newValue: string, change: CodeMirror.EditorChange) => {
+
+    }
+
+    const EditorSettingsPanel = () => (
+        <div style={{ position: 'absolute', zIndex: 10 }} >
+
+            <div style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'flex-end',
+            }}>
+
+                <Dropdown placeholder='Theme' value={theme} search selection options={
+                    Object.keys(CodeMirrorThemeToCSS).map(key => ({
+                        text: key, value: CodeMirrorThemeToCSS[key]
+                    }))
+                } onChange={(e, data) => {
+                    if (typeof data.value == 'string')
+                        setTheme(data.value)
+                }
+                } />
+
+
+                <Dropdown placeholder='Language' value={codeLanguage} selection options={
+                    Object.keys(CodeMirrorLanguageToMIMEType).map(key => ({
+                        text: key, value: key
+                    }))
+                } onChange={(e, data) => {
+                    if (typeof data.value == 'string')
+                        setCodeLanguage(data.value)
+                }
+                } />
+
+                <Button toggle active={vimEnabled} onClick={e => setVimEnabled(!vimEnabled)}>Vim</Button>
+            </div>
+        </div>
+    );
 
     useEffect(() => {
         loadTheme(theme);
@@ -53,41 +90,7 @@ const LiveCodeEditor = (props: LiveCodeEditorProps) => {
     return (
         <>
             <div style={{ display: 'relative', height: '100%' }}>
-
-                <div style={{position:'absolute' , zIndex:10}} >
-
-                    <div style={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        justifyContent: 'space-evenly',
-                    }}>
-
-                        <Dropdown placeholder='Theme' value={theme} search selection options={
-                            Object.keys(CodeMirrorThemeToCSS).map(key => ({
-                                text: key, value: CodeMirrorThemeToCSS[key]
-                            }))
-                        } onChange={(e, data) => {
-                            if (typeof data.value == 'string')
-                                setTheme(data.value)
-                        }
-                        } />
-
-
-                        <Dropdown placeholder='Language' value={codeLanguage} selection options={
-                            Object.keys(CodeMirrorLanguageToMIMEType).map(key => ({
-                                text: key, value: key
-                            }))
-                        } onChange={(e, data) => {
-                            if (typeof data.value == 'string')
-                                setCodeLanguage(data.value)
-                        }
-                        } />
-
-                        <Button toggle active={vimEnabled} onClick={e => setVimEnabled(!vimEnabled)}>Vim</Button>
-                    </div>
-                </div>
-
-                <CodeMirror onChange={updateHandler} value={props.liveCodeText} options={options} />
+                <CodeMirror onChange={codemirrorChangeHandler} value={props.liveCodeText} options={options} />
             </div>
         </>
 

@@ -22,7 +22,7 @@ const initialState: GlobalStateType = {
     chatMessages: [],
     myUserId: 'Anonymous',
     myUsername: 'Anonymous',
-    liveCodingOpen: true ,
+    liveCodingOpen: false,
     liveCodeText: '',
 }
 

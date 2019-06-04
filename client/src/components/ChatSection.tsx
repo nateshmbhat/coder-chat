@@ -2,7 +2,8 @@ import { connect } from "react-redux";
 import React, { Suspense } from 'react' ; 
 import { ChatMessage } from "./ChatMessage";
 import { ChatMessage as ChatMessageType } from "../types/mytypes";
-import LiveCodeEditor from "./LiveCodeEditor";
+import { BigLoaderCentered } from "./Misc";
+const LiveCodeEditor = React.lazy(()=> import("./LiveCodeEditor"))  ;
 
 interface ChatSectionStateProp{
     totalRows : number  ,
@@ -33,12 +34,14 @@ const ChatSection: React.FC<ChatSectionStateProp> = (props) => {
                 gridRow:`2 / ${totalRows+1}` 
         }} >
 
+        
+
         {
             props.liveCodingOpen &&
-            <Suspense fallback={<h1>LOADING....</h1>}>
+            <Suspense fallback={ <BigLoaderCentered inverted={true}/> }>
                 <LiveCodeEditor/>
-            </Suspense>
-            || chatMessages
+            </Suspense> || 
+            chatMessages
         }
 
         </div>

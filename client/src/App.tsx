@@ -1,14 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import ChatRoom from './components/ChatWindow';
+import React, { useState, useEffect, Suspense } from 'react';
 import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
 import LoginPage from './components/LoginBox';
+import { BigLoaderCentered } from './components/Misc';
+const ChatRoom = React.lazy(()=>import('./components/ChatWindow')) ; 
 
 const App: React.FC = () => {
   return (
     <Router>
       <Switch>
         <Route path="/" exact component={LoginPage} />
-        <Route path="/chat" exact component={ChatRoom} />
+        <Route path="/chat" exact component={
+            ()=>(<Suspense fallback={<BigLoaderCentered/>}>
+              <ChatRoom/>
+            </Suspense>)
+        } />
       </Switch>
     </Router>
   );
