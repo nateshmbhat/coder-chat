@@ -14,6 +14,21 @@ const registerCallbacks = (soc : socketIo.Socket, io : SocketIO.Server )=>{
         sendername : msgObject.sendername
       } as ChatMessageSendingBody) ; 
     })
+
+
+    soc.on( ChatEvents.LIVECODETEXT , (msgObject : ChatMessageReceiveBody)=>{
+      console.log('message from : ' , soc.id  , ' : ', msgObject) ; 
+      
+      soc.broadcast.emit( ChatEvents.LIVECODETEXT , {
+        senderSocketId : soc.id , 
+        senderid : msgObject.senderid , 
+        msg : msgObject.msg , 
+        sendername : msgObject.sendername
+      } as ChatMessageSendingBody) ; 
+
+    })
+
+
 }
 
 export default registerCallbacks ; 

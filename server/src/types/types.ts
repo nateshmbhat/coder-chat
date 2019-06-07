@@ -1,6 +1,6 @@
 enum ChatEvents{
     CHATMESSAGE = 'chat-message', 
-    LIVECODEMESSAGE = 'live-code-message'
+    LIVECODETEXT= 'live-code-text'
 };
 
 interface ChatMessageSendingBody{

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import ChatSendPanel from './ChatSendPanel';
 import  ChatSection from './ChatSection';
-import ContactsSection from './ContactsPanel' ; 
+import ChatLeftPanel from './ChatLeftSidePanel' ; 
 import { connect } from 'react-redux';
 import { ChatHeader } from './ChatHeader';
 
@@ -19,7 +19,7 @@ const ChatRoom = (props : ChatRoomProp) => {
                 gridTemplateColumns  : 'repeat(12,1fr)' , 
                 gridTemplateRows  : `repeat(${totalRows},1fr)` , 
             }}>
-                <ContactsSection />
+                <ChatLeftPanel />
                 <ChatHeader/>
                 <ChatSection/>
                 <ChatSendPanel/>

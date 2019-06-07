@@ -5,6 +5,7 @@ import { ActionType } from '../types/reducerTypes';
 import { Dispatch } from 'redux';
 import { CodeMirrorThemeToCSS, CodeMirrorLanguageToMIMEType, CodeMirrorLanguageToModePaths } from '../types/mytypes';
 import { Button, Dropdown, Icon } from 'semantic-ui-react';
+import { sendLiveCodeText } from '../handlers/chat/sender';
 
 require('codemirror/lib/codemirror.css');
 
@@ -20,7 +21,7 @@ require('codemirror/keymap/vim');
 
 
 interface LiveCodeEditorProps {
-    liveCodeText: string,
+    liveCodeText : string,
     setLiveCodeText: (text: string) => void
 }
 
@@ -34,6 +35,10 @@ const LiveCodeEditor = (props: LiveCodeEditorProps) => {
 
     const codemirrorChangeHandler = (newValue: string, change: CodeMirror.EditorChange) => {
         props.setLiveCodeText(newValue) ; 
+        if(newValue!==props.liveCodeText){
+                //If the user has entered something new , then send this to the server
+                sendLiveCodeText(newValue) ;   
+        }
     }
 
     const EditorSettingsPanel = () => (

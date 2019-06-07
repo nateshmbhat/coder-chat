@@ -1,18 +1,8 @@
 import { Reducer, AnyAction } from "redux";
-import { SessionType, ChatMessage } from '../types/mytypes';
+import { SessionType, ChatMessageType, GlobalStateType, LiveCodePeerMessage, senderToLiveCodeMap } from '../types/mytypes';
 import { ActionType } from "../types/reducerTypes";
+import { sendLiveCodeText } from "../handlers/chat/sender";
 
-export interface GlobalStateType {
-    totalRows: number,
-    serverConnection: boolean,
-    internetAccess: boolean,
-    sessions: SessionType[],
-    chatMessages: ChatMessage[],
-    myUserId: string,
-    myUsername: string,
-    liveCodingOpen: boolean,
-    liveCodeText: string,
-}
 
 const initialState: GlobalStateType = {
     totalRows: Math.ceil(window.innerHeight / 20),
@@ -24,6 +14,7 @@ const initialState: GlobalStateType = {
     myUsername: 'Anonymous',
     liveCodingOpen: true,
     liveCodeText: '',
+    liveCodePeers:{myid  : {senderid:'myid' , language :'java' , msg:'int i = 0 ;'} }
 }
 
 initialState.sessions.push({
@@ -48,7 +39,7 @@ const globalReducer: Reducer = (state: GlobalStateType = initialState, action: A
         case ActionType.ADD_CHAT_MESSAGE:
             return {
                 ...state,
-                chatMessages: [...state.chatMessages, action.payload as ChatMessage]
+                chatMessages: [...state.chatMessages, action.payload as ChatMessageType]
             }
         case ActionType.SET_USERNAME:
             return {
@@ -69,10 +60,23 @@ const globalReducer: Reducer = (state: GlobalStateType = initialState, action: A
             }
 
         case ActionType.SET_LIVECODE_TEXT : 
+            
             return {
                 ...state,
                 liveCodeText : action.payload as string
             }
+
+        case ActionType.ADD_LIVECODE_PEER:
+            {
+                let payload : LiveCodePeerMessage = action.payload ; 
+                let newLiveCodePeers = {...state.liveCodePeers} ; 
+                newLiveCodePeers[payload.senderid] = payload ; 
+                return {
+                    ...state,
+                    liveCodePeers : newLiveCodePeers
+                }
+            }
+            
     }
     return state;
 }

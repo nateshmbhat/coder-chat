@@ -6,6 +6,7 @@ enum ActionType{
     SET_USERID= 'set-user-id' , 
     SET_LIVECODE_TEXT= 'set-livecode-text' , 
     TOGGLE_LIVECODE_EDITOR= 'toggle-livecode-editor' , 
+    ADD_LIVECODE_PEER= 'add-livecode-peer' ,
 }
 
 export {ActionType} ; 

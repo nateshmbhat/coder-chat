@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 import React, { Suspense } from 'react' ; 
 import { ChatMessage } from "./ChatMessage";
-import { ChatMessage as ChatMessageType } from "../types/mytypes";
+import { ChatMessageType } from "../types/mytypes";
 import { BigLoaderCentered } from "./Misc";
 const LiveCodeEditor = React.lazy(()=> import("./LiveCodeEditor"))  ;
 

@@ -88,7 +88,7 @@ const ChatSendPanel = (props: ChatSendPanelProps) => {
                         value={message}
                     ></textarea>
 
-                    <Button icon compact size='large' color='olive' onClick={e=>setMessage(message)} > 🚀 </Button>
+                    <Button icon compact size='large' color='olive' onClick={e=>sendChatMessage(message)} > 🚀 </Button>
                 </div>
             </div>
         </>
