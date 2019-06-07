@@ -3,33 +3,19 @@ enum SocketEvents {
     LIVECODETEXT = 'live-code-text'
 };
 
-enum CodeMirrorThemes { abcef = 'abcdef', ambiance = 'ambiance', base16dark = 'base16-dark', base16light = 'base16-light', bespin = 'bespin', blackboard = "blackboard", cobalt = "cobalt", colorforth = "colorforth", darcula = "darcula", dracula = "dracula", duotonedark = "duotone-dark", duotonelight = "duotone-light", eclipse = "eclipse", elegant = "elegant", erlangdark = "erlang-dark", gruvboxdark = "gruvbox-dark", hopscotch = "hopscotch", icecoder = "icecoder", idea = "idea", isotope = "isotope", lesserdark = "lesser-dark", liquibyte = "liquibyte", lucario = "lucario", material = "material", mbo = "mbo", mdnlike = "mdn-like", midnight = "midnight", monokai = "monokai", neat = "neat", neo = "neo", night = "night", nord = "nord", oceanicnext = "oceanic-next", pandasyntax = "panda-syntax", paraisodark = "paraiso-dark", paraisolight = "paraiso-light", pastelondark = "pastel-on-dark", railscasts = "railscasts", rubyblue = "rubyblue", seti = "seti", shadowfox = "shadowfox", solarized = "solarized", ssms = "ssms", thematrix = "the-matrix", tomorrownightbright = "tomorrow-night-bright", tomorrownighteighties = "tomorrow-night-eighties", ttcn = "ttcn", twilight = "twilight", vibrantink = "vibrant-ink", xqdark = "xq-dark", xqlight = "xq-light", yeti = "yeti", yonce = "yonce", zenburn = "zenburn", } 
+const ACE_EDITOR_LANGUAGES = [ "java","c_cpp", "javascript", "python", "html"];
+  
+const ACE_EDITOR_THEMES = [ "monokai", "github", "tomorrow", "kuroir", "twilight", "xcode", "textmate", "solarized_dark", "solarized_light", "terminal" ];
 
-const CodeMirrorThemeToCSS: {[key:string] : string} = { abcef : 'abcdef', ambiance : 'ambiance', base16dark : 'base16-dark', base16light : 'base16-light', bespin : 'bespin', blackboard : "blackboard", cobalt : "cobalt", colorforth : "colorforth", darcula : "darcula", dracula : "dracula", duotonedark : "duotone-dark", duotonelight : "duotone-light", eclipse : "eclipse", elegant : "elegant", erlangdark : "erlang-dark", gruvboxdark : "gruvbox-dark", hopscotch : "hopscotch", icecoder : "icecoder", idea : "idea", isotope : "isotope", lesserdark : "lesser-dark", liquibyte : "liquibyte", lucario : "lucario", material : "material", mbo : "mbo", mdnlike : "mdn-like", midnight : "midnight", monokai : "monokai", neat : "neat", neo : "neo", night : "night", nord : "nord", oceanicnext : "oceanic-next", pandasyntax : "panda-syntax", paraisodark : "paraiso-dark", paraisolight : "paraiso-light", pastelondark : "pastel-on-dark", railscasts : "railscasts", rubyblue : "rubyblue", seti : "seti", shadowfox : "shadowfox", solarized : "solarized", ssms : "ssms", thematrix : "the-matrix", tomorrownightbright : "tomorrow-night-bright", tomorrownighteighties : "tomorrow-night-eighties", ttcn : "ttcn", twilight : "twilight", vibrantink : "vibrant-ink", xqdark : "xq-dark", xqlight : "xq-light", yeti : "yeti", yonce : "yonce", zenburn : "zenburn", }
 
-
-const CodeMirrorLanguageToModePaths : {[key:string] : string}= {
-    java : 'codemirror/mode/clike/clike', 
-    cpp: 'codemirror/mode/clike/clike' , 
-    c : 'codemirror/mode/clike/clike' , 
-    python : 'codemirror/mode/python/python' , 
-    javascript : 'codemirror/mode/javascript/javascript' , 
-    html : 'codemirror/mode/htmlmixed/htmlmixed' , 
+enum LocalStorageItemNames { //this is used to store data locally in localstorage with either of the following enumerations.
+    CODER_CHAT_USER_NAME = 'coder-chat-user-name'  ,
+    CODER_CHAT_USER_EMAILID = 'coder-chat-user-email'
 }
 
-const CodeMirrorLanguageToMIMEType : {[key:string] : string}= {
-    java : 'text/x-java', 
-    cpp: 'text/x-c++src' , 
-    c : 'text/x-csrc' , 
-    python : 'text/x-python' , 
-    javascript : 'javascript' , 
-    html : 'text/html' , 
-}
-
-export interface LiveCodePeerMessage extends MessageReceiveBody {
+export interface LiveCodePeerMessage extends ChatMessageType{
     language: string;
 };
-
 export interface GlobalStateType {
     totalRows: number,
     serverConnection: boolean,
@@ -40,7 +26,7 @@ export interface GlobalStateType {
     myUsername: string,
     liveCodingOpen: boolean,
     liveCodeText: string,
-    liveCodePeers : senderToLiveCodeMap ,
+    liveCodePeersMap : senderToLiveCodeMap ,
     activeLiveCodePeerId : string|null
 }
 
@@ -74,4 +60,4 @@ export interface SessionType {
     date: Date
 }
 
-export { SocketEvents as ChatEvents , CodeMirrorThemes , CodeMirrorThemeToCSS  , CodeMirrorLanguageToMIMEType , CodeMirrorLanguageToModePaths}; 
+export { SocketEvents as ChatEvents , ACE_EDITOR_LANGUAGES ,ACE_EDITOR_THEMES , LocalStorageItemNames }; 

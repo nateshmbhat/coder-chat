@@ -1,5 +1,5 @@
 import socketIo from "socket.io"; 
-import { ChatEvents, ChatMessageReceiveBody, ChatMessageSendingBody } from "../types/types";
+import { ChatEvents, ChatMessageReceiveBody, ChatMessageSendingBody, LiveMessageType } from "../types/types";
 
 const registerCallbacks = (soc : socketIo.Socket, io : SocketIO.Server )=>{
     console.log('/chat connected : ' , soc.id ) ; 
@@ -15,20 +15,10 @@ const registerCallbacks = (soc : socketIo.Socket, io : SocketIO.Server )=>{
       } as ChatMessageSendingBody) ; 
     })
 
-
-    soc.on( ChatEvents.LIVECODETEXT , (msgObject : ChatMessageReceiveBody)=>{
+    soc.on( ChatEvents.LIVECODETEXT , (msgObject : LiveMessageType)=>{
       console.log('message from : ' , soc.id  , ' : ', msgObject) ; 
-      
-      soc.broadcast.emit( ChatEvents.LIVECODETEXT , {
-        senderSocketId : soc.id , 
-        senderid : msgObject.senderid , 
-        msg : msgObject.msg , 
-        sendername : msgObject.sendername
-      } as ChatMessageSendingBody) ; 
-
+      soc.broadcast.emit( ChatEvents.LIVECODETEXT , msgObject ) ; 
     })
-
-
 }
 
 export default registerCallbacks ; 

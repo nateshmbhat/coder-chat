@@ -7,7 +7,7 @@ import { ActionType } from '../types/reducerTypes';
 
 interface ContactsSectionProp {
     totalRows: number;
-    liveCodePeers: senderToLiveCodeMap;
+    liveCodePeersMap: senderToLiveCodeMap;
     activeLiveCodePeerId: string;
     setActiveLiveCodePeer: (peerid: string|null) => void;
 }
@@ -16,15 +16,15 @@ interface ContactsSectionProp {
 const ChatLeftPanel: React.FC<ContactsSectionProp> = (props) => {
     const totalRows = props.totalRows
 
-    const peersComponent = Object.keys(props.liveCodePeers).map(peerid => {
+    const peersComponent = Object.keys(props.liveCodePeersMap).map(peerid => {
         let activated = peerid === props.activeLiveCodePeerId;
         return (
-            <div style={{ backgroundColor: activated ? '#16AB39' : 'rgb(131,131,131)' }} >
+            <div key={peerid} style={{ backgroundColor: activated ? '#16AB39' : 'rgb(131,131,131)' }} >
                 <Button key={peerid} toggle active={activated} fluid color='grey' compact onClick={e => activated?props.setActiveLiveCodePeer(null):props.setActiveLiveCodePeer(peerid)} >
                     <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
                         <Icon size='large' name='user' />
                         <p style={{ fontSize: '1.5em', paddingLeft: '5px' }} >
-                            {peerid}
+                            {props.liveCodePeersMap[peerid].sendername}
                         </p>
                     </div>
                 </Button>
@@ -48,7 +48,7 @@ const ChatLeftPanel: React.FC<ContactsSectionProp> = (props) => {
 
 const mapStateToProps = (state: ContactsSectionProp) => ({
     totalRows: state.totalRows,
-    liveCodePeers: state.liveCodePeers,
+    liveCodePeersMap: state.liveCodePeersMap,
     activeLiveCodePeerId: state.activeLiveCodePeerId,
 });
 const mapDispatchToProps = (dispatch: Dispatch) => ({

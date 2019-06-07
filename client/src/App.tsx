@@ -1,6 +1,6 @@
 import React, { useState, useEffect, Suspense } from 'react';
 import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
-import LoginPage from './components/LoginBox';
+import LoginPage from './components/LoginPage';
 import { BigLoaderCentered } from './components/Misc';
 const ChatRoom = React.lazy(()=>import('./components/ChatWindow')) ; 
 

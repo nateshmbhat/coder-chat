@@ -1,5 +1,5 @@
 import { chatsocket, initChatSocket } from "./chatInit";
-import { ChatEvents, ChatMessageType, GlobalStateType } from "../../types/mytypes";
+import { ChatEvents, ChatMessageType, GlobalStateType, LiveCodePeerMessage } from "../../types/mytypes";
 import { globalStore } from "../../store/globalStore";
 
 import { ActionType } from "../../types/reducerTypes";
@@ -23,7 +23,7 @@ const sendChatMessage=(msgString:string)=>{
 }
 
 
-const sendLiveCodeText=(codeString:string)=>{// sends the codeString to the server to be broadcast
+const sendLiveCodeText=(codeString:string , language : string)=>{// sends the codeString to the server to be broadcast
    if(codeString.length==0) return ;  //reject empty messages
 
    const globalState : GlobalStateType = globalStore.getState() ; 
@@ -31,8 +31,7 @@ const sendLiveCodeText=(codeString:string)=>{// sends the codeString to the serv
    const date = new Date() ; 
    const sessionId = `${date.getDate()}${date.getMonth()}${date.getFullYear()}`
 
-   const message : ChatMessageType= {msg:codeString, senderid : globalState.myUserId , sendername : globalState.myUsername, sessionid : sessionId ,time : new Date() }
-   globalStore.dispatch({type:ActionType.ADD_CHAT_MESSAGE , payload : message })
+   const message : LiveCodePeerMessage = {msg:codeString, senderid : globalState.myUserId , sendername : globalState.myUsername, sessionid : sessionId ,time : new Date() , language:language }
 
    console.log('sending message to server : ' , message );
    chatsocket.emit( ChatEvents.LIVECODETEXT, message  )  ; 

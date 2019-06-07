@@ -4,22 +4,35 @@ import { ActionType } from '../types/reducerTypes';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { Message } from 'semantic-ui-react';
+import { LocalStorageItemNames } from '../types/mytypes';
 
 
 interface LoginPageProps {
-    setUsername: (name: string) => any ,
-    setUserId: (id: string) => any 
-}; 
+    setUsername: (name: string) => any,
+    setUserId: (id: string) => any // email
+};
 
-const LoginPage = (props : RouteComponentProps & LoginPageProps ) => {
+const LoginPage = (props: RouteComponentProps & LoginPageProps) => {
 
     const [username, setUsername] = useState('');
     const [userid, setUserId] = useState('');
+    const [error, toggleError] = useState(false);
 
-    const handleLoginClick = (props : RouteComponentProps &  LoginPageProps )=>{
-        props.setUserId(userid) ;  
-        props.setUsername(username) ;  
-        props.history.push('/chat')  ;
+    const handleLoginClick = (props: RouteComponentProps & LoginPageProps) => {
+        if (!userid.match('^[a-z0-9.]+@gmail\.com$') || !username.match('^[a-zA-Z]{3,}$')) {
+            toggleError(true) ; 
+            return;
+        }
+        else{
+            toggleError(false) ; 
+        }
+
+        props.setUserId(userid);
+        props.setUsername(username);
+        localStorage.setItem(LocalStorageItemNames.CODER_CHAT_USER_NAME , username) ; 
+        localStorage.setItem(LocalStorageItemNames.CODER_CHAT_USER_EMAILID , userid) ; 
+        props.history.push('/chat');
     }
 
     return (
@@ -60,14 +73,21 @@ const LoginPage = (props : RouteComponentProps & LoginPageProps ) => {
                 }}>
                     Enter Details
             </p>
-
                 <InputTextStyled onChange={e => setUsername(e.target.value)} value={username} placeholder="Your Name" />
                 <br />
-                <InputTextStyled onChange={e => setUserId(e.target.value)} value={userid} placeholder="User ID" />
+                <InputTextStyled onChange={e => setUserId(e.target.value)} value={userid} placeholder="Gmail ID" />
 
-                    <ButtonHoverableMd onClick={e=>handleLoginClick(props)}>
-                            GO
-                    </ButtonHoverableMd>
+                {
+                    error &&
+                    <Message negative>
+                        <Message.Header>Invalid Name or Email entered ! </Message.Header>
+                        <p>Make sure that name field doesn't contain any special characters and E-mail is a valid gmail id.</p>
+                    </Message>
+                }
+
+                <ButtonHoverableMd onClick={e => handleLoginClick(props)}>
+                    GO
+                </ButtonHoverableMd>
             </div>
         </div>
     );
@@ -75,9 +95,9 @@ const LoginPage = (props : RouteComponentProps & LoginPageProps ) => {
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
     return {
-        setUsername: (name: string) => { dispatch({ type: ActionType.SET_USERNAME, payload: name }) },
-        setUserId: (id: string) => { dispatch({ type: ActionType.SET_USERID, payload: id }) }
+        setUsername: (name: string) => { dispatch({ type: ActionType.SET_USERNAME, payload: name.trim() }) },
+        setUserId: (id: string) => { dispatch({ type: ActionType.SET_USERID, payload: id.trim() }) }
     }
 };
 
-export default connect(null, mapDispatchToProps)( withRouter(LoginPage)) ; 
+export default connect(null, mapDispatchToProps)(withRouter(LoginPage)); 

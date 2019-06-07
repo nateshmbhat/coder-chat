@@ -4,6 +4,7 @@ import  ChatSection from './ChatSection';
 import ChatLeftPanel from './ChatLeftSidePanel' ; 
 import { connect } from 'react-redux';
 import { ChatHeader } from './ChatHeader';
+import { LocalStorageItemNames } from '../types/mytypes';
 
 interface ChatRoomProp{
     totalRows : number 
@@ -11,6 +12,9 @@ interface ChatRoomProp{
 
 const ChatRoom = (props : ChatRoomProp) => {
     const totalRows = props.totalRows
+    if(localStorage.getItem(LocalStorageItemNames.CODER_CHAT_USER_EMAILID)==null){
+        window.location.href='/' ; 
+    }
     return (
         <>
             <div style={{

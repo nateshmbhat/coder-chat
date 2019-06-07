@@ -10,11 +10,14 @@ interface ChatMessageSendingBody{
     msg : string
 }
 
-interface ChatMessageReceiveBody{
+interface MessageReceiveBody{
     senderid : string
     sendername : string  , 
     msg : string
 }
 
-export {ChatEvents , ChatMessageSendingBody , ChatMessageReceiveBody} ; 
+interface LiveMessageType extends MessageReceiveBody{
+    language : string
+}
 
+export {ChatEvents , ChatMessageSendingBody , MessageReceiveBody as ChatMessageReceiveBody , LiveMessageType} ; 

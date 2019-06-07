@@ -1,5 +1,5 @@
 import { Reducer, AnyAction } from "redux";
-import { SessionType, ChatMessageType, GlobalStateType, LiveCodePeerMessage, senderToLiveCodeMap } from '../types/mytypes';
+import {  ChatMessageType, GlobalStateType, LiveCodePeerMessage, senderToLiveCodeMap, LocalStorageItemNames } from '../types/mytypes';
 import { ActionType } from "../types/reducerTypes";
 
 
@@ -9,11 +9,11 @@ const initialState: GlobalStateType = {
     serverConnection: false,
     sessions: [],
     chatMessages: [],
-    myUserId: 'Anonymous',
-    myUsername: 'Anonymous',
+    myUserId: localStorage.getItem(LocalStorageItemNames.CODER_CHAT_USER_EMAILID ) || String((Math.random())) ,
+    myUsername: localStorage.getItem(LocalStorageItemNames.CODER_CHAT_USER_NAME) || 'Anonymous' ,
     liveCodingOpen: true,
     liveCodeText: '',
-    liveCodePeers:{myid  : {senderid:'myid' , language :'java' , msg:'int i = 0 ;'}} , 
+    liveCodePeersMap:{myid  : {senderid:'myid' , time : (new Date())  , language :'java' , msg:'int i = 0 ;', sendername:'anonymous' , sessionid:'anonymous'}} , 
     activeLiveCodePeerId : null
 }
 
@@ -76,11 +76,12 @@ const globalReducer: Reducer = (state: GlobalStateType = initialState, action: A
         case ActionType.ADD_LIVECODE_PEER:
             {
                 let payload : LiveCodePeerMessage = action.payload ; 
-                let newLiveCodePeers = {...state.liveCodePeers} ; 
+                let newLiveCodePeers = {...state.liveCodePeersMap} ; 
                 newLiveCodePeers[payload.senderid] = payload ; 
+                console.log("LIVECODE UPDATE : " , newLiveCodePeers) ; 
                 return {
                     ...state,
-                    liveCodePeers : newLiveCodePeers
+                    liveCodePeersMap : newLiveCodePeers
                 }
             }
             

@@ -1,104 +1,141 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import CodeMirror  from 'react-codemirror';
+import AceEditor from 'react-ace'
 import { ActionType } from '../types/reducerTypes';
 import { Dispatch } from 'redux';
-import { CodeMirrorThemeToCSS, CodeMirrorLanguageToMIMEType, CodeMirrorLanguageToModePaths } from '../types/mytypes';
-import { Button, Dropdown, Icon } from 'semantic-ui-react';
+import { Button, Dropdown, Icon, Modal, Header } from 'semantic-ui-react';
 import { sendLiveCodeText } from '../handlers/chat/sender';
-
-require('codemirror/lib/codemirror.css');
-
-require('codemirror/mode/clike/clike');
-require('codemirror/mode/javascript/javascript');
-require('codemirror/mode/htmlmixed/htmlmixed');
-require('codemirror/mode/python/python');
-
-require('codemirror/addon/mode/loadmode');
-require('codemirror/addon/edit/closebrackets');
-require('codemirror/addon/hint/show-hint');
-require('codemirror/keymap/vim');
+import { ACE_EDITOR_LANGUAGES, ACE_EDITOR_THEMES, senderToLiveCodeMap } from '../types/mytypes';
+import 'brace/keybinding/vim' ; 
 
 
 interface LiveCodeEditorProps {
-    liveCodeText : string,
-    activeLiveCodePeerId : string , 
+    liveCodeText: string,
+    activeLiveCodePeerId: string,
     setLiveCodeText: (text: string) => void
+    liveCodePeersMap : senderToLiveCodeMap ,
 }
 
+
+ACE_EDITOR_LANGUAGES.forEach(lang => {
+    require(`brace/mode/${lang}`);
+    require(`brace/snippets/${lang}`);
+});
+
+ACE_EDITOR_THEMES.forEach(theme => {
+    require(`brace/theme/${theme}`);
+});
+
+
+
 const LiveCodeEditor = (props: LiveCodeEditorProps) => {
-    const [theme, setTheme] = useState('dracula');
+    const [theme, setTheme] = useState('monokai');
     const [vimEnabled, setVimEnabled] = useState(false);
-    const [codeLanguage, setCodeLanguage] = useState('cpp');
+    const [codeLanguage, setCodeLanguage] = useState('java');
     const [showSettings, setShowSettings] = useState(false);
+    const [showModal , toggleModal] = useState(false) ; 
+    const [codeSelected , setCodeSelected] = useState('') ; 
 
-    const loadTheme = async (theme: string) => require(`codemirror/theme/${theme}.css`);
 
-    const codemirrorChangeHandler = (  newValue: string ,  change: CodeMirror.EditorChange ) => {
-        props.setLiveCodeText(newValue) ; 
-        if(newValue!==props.liveCodeText){
-                //If the user has entered something new , then send this to the server
-                sendLiveCodeText(newValue) ;   
+
+    const codeChangeHandler = (value: string, event: any) => {
+        props.setLiveCodeText(value);
+        if (value !== props.liveCodeText) {
+            //If the user has entered something new , then send this to the server
+            sendLiveCodeText(value , codeLanguage);
         }
     }
 
     const EditorSettingsPanel = () => (
-            <div style={{
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'flex-end',
-                opacity:0.95
-            }}>
+        <div style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'flex-end',
+        }}>
 
-                <Dropdown placeholder='Theme' value={theme} search selection options={
-                    Object.keys(CodeMirrorThemeToCSS).map(key => ({
-                        text: key, value: CodeMirrorThemeToCSS[key]
-                    }))
-                } onChange={(e, data) => {
-                    if (typeof data.value == 'string')
-                        setTheme(data.value)
-                }
-                } />
+            <Dropdown placeholder='Theme' value={theme} search selection options={
+                ACE_EDITOR_THEMES.map(theme => ({
+                    text: theme, value: theme
+                }))
+            } onChange={(e, data) => {
+                if (typeof data.value == 'string')
+                    setTheme(data.value)
+            }
+            } />
 
 
-                <Dropdown placeholder='Language' value={codeLanguage} selection options={
-                    Object.keys(CodeMirrorLanguageToMIMEType).map(key => ({
-                        text: key, value: key
-                    }))
-                } onChange={(e, data) => {
-                    if (typeof data.value == 'string')
-                        setCodeLanguage(data.value)
-                }
-                } />
+            <Dropdown placeholder='Language' value={codeLanguage} selection options={
+                ACE_EDITOR_LANGUAGES.map(lang => ({
+                    text: lang, value: lang
+                }))
+            } onChange={(e, data) => {
+                if (typeof data.value == 'string')
+                    setCodeLanguage(data.value)
+            }
+            } />
 
-                <Button toggle active={vimEnabled} onClick={e => setVimEnabled(!vimEnabled)}>Vim</Button>
-            </div>
+            <Button toggle active={vimEnabled} onClick={e => setVimEnabled(!vimEnabled)}>Vim</Button>
+        </div>
     );
-
-    useEffect(() => {
-        loadTheme(theme);
-    }, [theme])
-
-    const options = {
-        lineNumbers: true,
-        mode: CodeMirrorLanguageToMIMEType[codeLanguage],
-        matchBrackets: true,
-        autoCloseBrackets: true,
-        theme: theme,
-        keyMap: vimEnabled ? 'vim' : 'default',
-        autoSave: true,
-    }
 
     return (
         <>
+
+
+            <Modal
+        open={showModal}
+        onClose={e=>toggleModal(!showModal)}
+        basic
+        size='small'
+      >
+        <Header icon='browser' content='Code Copied !' />
+        <Modal.Content>
+            <code style={{whiteSpace:'pre-wrap'}}>
+                {codeSelected}
+            </code>
+        </Modal.Content>
+        <Modal.Actions>
+          <Button color='green' onClick={e=>toggleModal(!showModal)} inverted>
+            <Icon name='checkmark' /> Got it
+          </Button>
+        </Modal.Actions>
+      </Modal>
+ 
+
+
             <div style={{ display: 'relative', height: '100%' }}>
-                <div style={{ opacity:0.8 , position: 'absolute', zIndex: 10, textAlign:'right' , right:0 }}>
-                    <Button toggle active={showSettings} onClick={e=>setShowSettings(!showSettings)} circular icon>
+                <div style={{ opacity: 0.8, position: 'absolute', zIndex: 10, textAlign: 'right', right: 0 }}>
+                    <Button toggle active={showSettings} onClick={e => setShowSettings(!showSettings)} circular icon>
                         <Icon name='setting' />
                     </Button>
-                    {showSettings && <EditorSettingsPanel/>}
+                    {showSettings && <EditorSettingsPanel />}
                 </div>
-                <CodeMirror autoFocus onChange={codemirrorChangeHandler} value={ props.activeLiveCodePeerId==null?props.liveCodeText:'others'} options={options} />
+
+                <AceEditor
+                    mode={codeLanguage}
+                    theme={theme}
+                    name="my-code-editor-main"
+                    value={props.activeLiveCodePeerId==null?props.liveCodeText: props.liveCodePeersMap[props.activeLiveCodePeerId].msg }
+                    style={{ height: '100%', width: '100%' , marginTop:'3px' }}
+                    onChange={codeChangeHandler}
+                    onFocus={e=>setShowSettings(false)}
+                    onCopy={e=>toggleModal(!showModal)}
+                    onSelectionChange={(selection :AceEditor , event)=> {
+                        const selectedText = selection.doc.getTextRange(selection.getRange()) ;
+                        setCodeSelected(selectedText) ; 
+                    }}
+                    focus
+                    keyboardHandler={vimEnabled?'vim':'default'}
+                    readOnly={props.activeLiveCodePeerId != null}
+                    setOptions={{
+                        animatedScroll: true,
+                        displayIndentGuides: true,
+                        enableBasicAutocompletion: true,
+                        enableLiveAutocompletion: true,
+                        fontFamily: 'Fira Code',
+                        fontSize: 18,
+                    }}
+                />
             </div>
         </>
 
@@ -107,8 +144,9 @@ const LiveCodeEditor = (props: LiveCodeEditorProps) => {
 
 const mapStateToProps = (state: LiveCodeEditorProps) => {
     return {
-        liveCodeText: state.liveCodeText , 
-        activeLiveCodePeerId : state.activeLiveCodePeerId 
+        liveCodeText: state.liveCodeText,
+        activeLiveCodePeerId: state.activeLiveCodePeerId, 
+        liveCodePeersMap : state.liveCodePeersMap
     }
 }
 
