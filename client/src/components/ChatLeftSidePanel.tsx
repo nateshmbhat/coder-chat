@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { senderToLiveCodeMap } from '../types/mytypes';
+import { senderToLiveCodeMap, Colors } from '../types/mytypes';
 import { Button, Icon, Divider } from 'semantic-ui-react';
 import { Dispatch } from 'redux';
 import { ActionType } from '../types/reducerTypes';
@@ -27,6 +27,9 @@ const ChatLeftPanel: React.FC<ContactsSectionProp> = (props) => {
                             {props.liveCodePeersMap[peerid].sendername}
                         </p>
                     </div>
+                    <p style={{color: Colors.DARK_GREEN_FOR_CODE_LANGUAGE}}>
+                        {props.liveCodePeersMap[peerid].language}
+                    </p>
                 </Button>
 
             </div>

@@ -45,6 +45,7 @@ const LiveCodeEditor = (props: LiveCodeEditorProps) => {
             sendLiveCodeText(value , codeLanguage);
         }
     }
+    const activePeer = props.activeLiveCodePeerId ;
 
     const EditorSettingsPanel = () => (
         <div style={{
@@ -64,7 +65,7 @@ const LiveCodeEditor = (props: LiveCodeEditorProps) => {
             } />
 
 
-            <Dropdown placeholder='Language' value={codeLanguage} selection options={
+            <Dropdown placeholder='Language' value={ activePeer!=null?props.liveCodePeersMap[activePeer].language:codeLanguage} selection options={
                 ACE_EDITOR_LANGUAGES.map(lang => ({
                     text: lang, value: lang
                 }))

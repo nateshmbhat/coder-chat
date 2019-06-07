@@ -5,12 +5,18 @@ enum SocketEvents {
 
 const ACE_EDITOR_LANGUAGES = [ "java","c_cpp", "javascript", "python", "html"];
   
-const ACE_EDITOR_THEMES = [ "monokai", "github", "tomorrow", "kuroir", "twilight", "xcode", "textmate", "solarized_dark", "solarized_light", "terminal" ];
+const ACE_EDITOR_THEMES = [ "monokai", "github", "tomorrow", 'tomorrow_night_blue','pastel_on_dark','merbivore','dracula','cobalt','clouds','chaos','ambiance', "kuroir", "twilight", "xcode", "textmate", "solarized_dark", "solarized_light", "terminal" ];
 
 
 enum LocalStorageItemNames { //this is used to store data locally in localstorage with either of the following enumerations.
     CODER_CHAT_USER_NAME = 'coder-chat-user-name'  ,
     CODER_CHAT_USER_EMAILID = 'coder-chat-user-email'
+}
+
+enum Colors{
+    DARK_GREEN_FOR_CODE_LANGUAGE = 'gainsboro' , 
+    CHAT_HEADER_PURPLE = 'linear-gradient(rgb(142, 141, 229), rgb(107, 124, 215))' , 
+    LEFT_PANEL_GREY = '#001100' , 
 }
 
 export interface LiveCodePeerMessage extends ChatMessageType{
@@ -60,4 +66,4 @@ export interface SessionType {
     date: Date
 }
 
-export { SocketEvents as ChatEvents , ACE_EDITOR_LANGUAGES ,ACE_EDITOR_THEMES , LocalStorageItemNames }; 
+export { SocketEvents as ChatEvents , ACE_EDITOR_LANGUAGES ,ACE_EDITOR_THEMES , LocalStorageItemNames  , Colors}; 

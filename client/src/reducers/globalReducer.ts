@@ -11,9 +11,9 @@ const initialState: GlobalStateType = {
     chatMessages: [],
     myUserId: localStorage.getItem(LocalStorageItemNames.CODER_CHAT_USER_EMAILID ) || String((Math.random())) ,
     myUsername: localStorage.getItem(LocalStorageItemNames.CODER_CHAT_USER_NAME) || 'Anonymous' ,
-    liveCodingOpen: true,
+    liveCodingOpen: false,
     liveCodeText: '',
-    liveCodePeersMap:{myid  : {senderid:'myid' , time : (new Date())  , language :'java' , msg:'int i = 0 ;', sendername:'anonymous' , sessionid:'anonymous'}} , 
+    liveCodePeersMap: {},//{myid  : {senderid:'myid' , time : (new Date())  , language :'java' , msg:'int i = 0 ;', sendername:'anonymous' , sessionid:'anonymous'}} , 
     activeLiveCodePeerId : null
 }
 
