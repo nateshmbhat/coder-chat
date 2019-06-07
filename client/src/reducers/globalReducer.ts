@@ -1,7 +1,6 @@
 import { Reducer, AnyAction } from "redux";
 import { SessionType, ChatMessageType, GlobalStateType, LiveCodePeerMessage, senderToLiveCodeMap } from '../types/mytypes';
 import { ActionType } from "../types/reducerTypes";
-import { sendLiveCodeText } from "../handlers/chat/sender";
 
 
 const initialState: GlobalStateType = {
@@ -14,7 +13,8 @@ const initialState: GlobalStateType = {
     myUsername: 'Anonymous',
     liveCodingOpen: true,
     liveCodeText: '',
-    liveCodePeers:{myid  : {senderid:'myid' , language :'java' , msg:'int i = 0 ;'} }
+    liveCodePeers:{myid  : {senderid:'myid' , language :'java' , msg:'int i = 0 ;'}} , 
+    activeLiveCodePeerId : null
 }
 
 initialState.sessions.push({
@@ -64,6 +64,13 @@ const globalReducer: Reducer = (state: GlobalStateType = initialState, action: A
             return {
                 ...state,
                 liveCodeText : action.payload as string
+            }
+
+
+        case ActionType.SET_ACTIVE_LIVECODE_PEER: 
+            return {
+                ...state,
+                activeLiveCodePeerId : action.payload as string | null
             }
 
         case ActionType.ADD_LIVECODE_PEER:

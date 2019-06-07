@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import CodeMirror from 'react-codemirror';
+import CodeMirror  from 'react-codemirror';
 import { ActionType } from '../types/reducerTypes';
 import { Dispatch } from 'redux';
 import { CodeMirrorThemeToCSS, CodeMirrorLanguageToMIMEType, CodeMirrorLanguageToModePaths } from '../types/mytypes';
@@ -22,6 +22,7 @@ require('codemirror/keymap/vim');
 
 interface LiveCodeEditorProps {
     liveCodeText : string,
+    activeLiveCodePeerId : string , 
     setLiveCodeText: (text: string) => void
 }
 
@@ -33,7 +34,7 @@ const LiveCodeEditor = (props: LiveCodeEditorProps) => {
 
     const loadTheme = async (theme: string) => require(`codemirror/theme/${theme}.css`);
 
-    const codemirrorChangeHandler = (newValue: string, change: CodeMirror.EditorChange) => {
+    const codemirrorChangeHandler = (  newValue: string ,  change: CodeMirror.EditorChange ) => {
         props.setLiveCodeText(newValue) ; 
         if(newValue!==props.liveCodeText){
                 //If the user has entered something new , then send this to the server
@@ -91,13 +92,13 @@ const LiveCodeEditor = (props: LiveCodeEditorProps) => {
     return (
         <>
             <div style={{ display: 'relative', height: '100%' }}>
-                <div style={{ opacity:0.8 , position: 'absolute', zIndex: 10, textAlign:'right' ,width:'100%' }}>
+                <div style={{ opacity:0.8 , position: 'absolute', zIndex: 10, textAlign:'right' , right:0 }}>
                     <Button toggle active={showSettings} onClick={e=>setShowSettings(!showSettings)} circular icon>
                         <Icon name='setting' />
                     </Button>
                     {showSettings && <EditorSettingsPanel/>}
                 </div>
-                <CodeMirror autoFocus onChange={codemirrorChangeHandler} value={props.liveCodeText} options={options} />
+                <CodeMirror autoFocus onChange={codemirrorChangeHandler} value={ props.activeLiveCodePeerId==null?props.liveCodeText:'others'} options={options} />
             </div>
         </>
 
@@ -106,7 +107,8 @@ const LiveCodeEditor = (props: LiveCodeEditorProps) => {
 
 const mapStateToProps = (state: LiveCodeEditorProps) => {
     return {
-        liveCodeText: state.liveCodeText
+        liveCodeText: state.liveCodeText , 
+        activeLiveCodePeerId : state.activeLiveCodePeerId 
     }
 }
 

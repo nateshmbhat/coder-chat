@@ -40,7 +40,8 @@ export interface GlobalStateType {
     myUsername: string,
     liveCodingOpen: boolean,
     liveCodeText: string,
-    liveCodePeers : senderToLiveCodeMap
+    liveCodePeers : senderToLiveCodeMap ,
+    activeLiveCodePeerId : string|null
 }
 
 export interface senderToLiveCodeMap{
