@@ -10,6 +10,7 @@ import { Button, Icon } from 'semantic-ui-react';
 
 interface ChatSendPanelProps {
     totalRows: number,
+    liveCodingOpen: boolean , 
     toggleLiveCodeEditor: () => void
 };
 
@@ -57,7 +58,11 @@ const ChatSendPanel = (props: ChatSendPanelProps) => {
                 <ComputerIcon title="Live Code" onClick={(e) => props.toggleLiveCodeEditor()} src={computerIcon} />
 
                 <div style={{
-                    height: '100%', width: '100%',
+                    height: props.liveCodingOpen?'0':'100%', 
+                    opacity:props.liveCodingOpen?0:1,
+                    transition:'all 0.5s' , 
+                    overflow:'hidden',
+                    width: '100%',
                     display: 'flex',
                     marginRight: '30px',
                     position: 'relative',
@@ -73,15 +78,14 @@ const ChatSendPanel = (props: ChatSendPanelProps) => {
                             backgroundColor: '#F8F8F8',
                             paddingLeft: '5px',
                             paddingRight: '5px',
+                            transform:'all 0.5s' , 
                             borderTopLeftRadius: '8px',
-                            height: '100%',
+                            height: props.liveCodingOpen?'0':'100%',
                             width: '100%',
                             resize: 'none',
                             outline: 'none',
                             boxSizing: 'border-box',
                             WebkitBoxSizing: 'border-box',
-                            fontSize: '100%',
-                            fontFamily: 'caladea',
                             MozBoxSizing: 'border-box',
                         }}
                         onChange={e => setMessage(e.target.value)}
@@ -97,7 +101,8 @@ const ChatSendPanel = (props: ChatSendPanelProps) => {
 
 
 const mapStateToProps = (state: ChatSendPanelProps) => ({
-    totalRows: state.totalRows
+    totalRows: state.totalRows,
+    liveCodingOpen: state.liveCodingOpen
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => {

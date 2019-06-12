@@ -133,7 +133,6 @@ const LiveCodeEditor = (props: LiveCodeEditorProps) => {
                         displayIndentGuides: true,
                         enableBasicAutocompletion: true,
                         enableLiveAutocompletion: true,
-                        fontFamily: 'Fira Code',
                         fontSize: 18,
                     }}
                 />
