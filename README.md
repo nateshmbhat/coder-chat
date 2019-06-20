@@ -12,4 +12,4 @@ A webapp built with react and express that is useful during coding sessions and 
 
 ### A Small Demo showing some of the Live Code sync and chatting features : 
 
-![](https://i.imgur.com/u0pEm6l.gif)
+![](https://youtu.be/dpZ1zrcPBww)
