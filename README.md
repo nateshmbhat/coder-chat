@@ -7,3 +7,9 @@ A webapp built with react and express that is useful during coding sessions and 
 + Live code editor supports multiple languages with syntax highlights and also supports **vim** keybindings.
 + Syncs code from various users of the app in the network updates in real time letter by letter with corresponding language highlights.
 + Watch a user in the network code live from the shown user's list who are using the app.
+
+
+
+### A Small Demo showing some of the Live Code sync and chatting features : 
+
+![](https://i.imgur.com/u0pEm6l.gif)
