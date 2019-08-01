@@ -2,16 +2,15 @@ import React, { useContext } from 'react';
 import ChatSendPanel from './ChatSendPanel';
 import  ChatSection from './ChatSection';
 import ChatLeftPanel from './ChatLeftSidePanel' ; 
-import { connect } from 'react-redux';
 import { ChatHeader } from './ChatHeader';
-import { LocalStorageItemNames } from '../types/mytypes';
+import { LocalStorageItemNames, GlobalStoreType } from '../types/mytypes';
+import { useStoreState } from '../store/globalStore';
 
-interface ChatRoomProp{
-    totalRows : number 
-};
 
-const ChatRoom = (props : ChatRoomProp) => {
-    const totalRows = props.totalRows
+const ChatRoom = () => {
+
+    const totalRows = useStoreState(state=> state.totalRows) ; 
+
     if(localStorage.getItem(LocalStorageItemNames.CODER_CHAT_USER_EMAILID)==null){
         window.location.href='/' ; 
     }
@@ -32,12 +31,4 @@ const ChatRoom = (props : ChatRoomProp) => {
     );
 }
 
-
-
-const mapStateToProps = (state:ChatRoomProp)=>{
-    return {
-        totalRows : state.totalRows 
-    }
-}
-
-export default connect(mapStateToProps)(ChatRoom) ;
+export default ChatRoom ;

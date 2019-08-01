@@ -2,7 +2,7 @@ import openSocket from 'socket.io-client'  ;
 import registerCallbacks from './callbacks';
 
 let chatsocket : SocketIOClient.Socket ; 
-const serverURL  = '192.168.0.101:9000/chat' ; 
+const serverURL  = '192.168.0.100:9000/chat' ; 
 
 const initChatSocket= ()=>{
   if(chatsocket==undefined){

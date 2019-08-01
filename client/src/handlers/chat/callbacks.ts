@@ -1,5 +1,4 @@
 import { ChatEvents, MessageReceiveBody, ChatMessageType, LiveCodePeerMessage} from "../../types/mytypes";
-import { ActionType } from "../../types/reducerTypes";
 import { globalStore } from "../../store/globalStore";
 
 const registerCallbacks = (sock : SocketIOClient.Socket )=>{
@@ -13,13 +12,13 @@ const registerCallbacks = (sock : SocketIOClient.Socket )=>{
 
       const chat : ChatMessageType = {msg:msgObject.msg , senderid : msgObject.senderid , sendername : msgObject.sendername || msgObject.senderid , sessionid : sessionId ,time : new Date()  }
 
-      globalStore.dispatch({type:ActionType.ADD_CHAT_MESSAGE , payload : chat })
+      globalStore.getActions().addChatMessage(chat) ; 
 
     })
 
     sock.on(ChatEvents.LIVECODETEXT , (msgObject:LiveCodePeerMessage)=>{
       console.log("message from server : " , msgObject ) ; 
-      globalStore.dispatch({type:ActionType.ADD_LIVECODE_PEER , payload : msgObject  })
+      globalStore.getActions().addLiveCodePeer(msgObject)
     })
 }    
 

@@ -1,34 +1,30 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { senderToLiveCodeMap, Colors } from '../types/mytypes';
+import { senderToLiveCodeMap, Colors, GlobalStoreType } from '../types/mytypes';
 import { Button, Icon, Divider } from 'semantic-ui-react';
 import { Dispatch } from 'redux';
-import { ActionType } from '../types/reducerTypes';
+import { globalStore, useStoreState, useStoreActions } from '../store/globalStore';
 
-interface ContactsSectionProp {
-    totalRows: number;
-    liveCodePeersMap: senderToLiveCodeMap;
-    activeLiveCodePeerId: string;
-    setActiveLiveCodePeer: (peerid: string|null) => void;
-}
 
 // This is the left panel that runs from top to bottom of the page.
-const ChatLeftPanel: React.FC<ContactsSectionProp> = (props) => {
-    const totalRows = props.totalRows
+const ChatLeftPanel = () => {
+    const [totalRows , liveCodePeersMap , activeLiveCodePeerId] = useStoreState(state =>  [state.totalRows,state.liveCodePeersMap , state.activeLiveCodePeerId ] ) ;
+    const setActiveLiveCodePeer = useStoreActions(actions=>actions.setActiveLiveCodePeer) 
 
-    const peersComponent = Object.keys(props.liveCodePeersMap).map(peerid => {
-        let activated = peerid === props.activeLiveCodePeerId;
+    console.log('rendering ChatLeftPanel') ; 
+
+    const peersComponent = Object.keys(liveCodePeersMap).map(peerid => {
+        let activated = peerid === activeLiveCodePeerId;
         return (
             <div key={peerid} style={{ backgroundColor: activated ? '#16AB39' : 'rgb(131,131,131)' }} >
-                <Button key={peerid} toggle active={activated} fluid color='grey' compact onClick={e => activated?props.setActiveLiveCodePeer(null):props.setActiveLiveCodePeer(peerid)} >
+                <Button key={peerid} toggle active={activated} fluid color='grey' compact onClick={e => activated?setActiveLiveCodePeer(null):setActiveLiveCodePeer(peerid)} >
                     <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
                         <Icon size='large' name='user' />
                         <p style={{ fontSize: '1.5em', paddingLeft: '5px' }} >
-                            {props.liveCodePeersMap[peerid].sendername}
+                            {liveCodePeersMap[peerid].sendername}
                         </p>
                     </div>
                     <p style={{color: Colors.DARK_GREEN_FOR_CODE_LANGUAGE}}>
-                        {props.liveCodePeersMap[peerid].language}
+                        {liveCodePeersMap[peerid].language}
                     </p>
                 </Button>
 
@@ -49,13 +45,4 @@ const ChatLeftPanel: React.FC<ContactsSectionProp> = (props) => {
     );
 }
 
-const mapStateToProps = (state: ContactsSectionProp) => ({
-    totalRows: state.totalRows,
-    liveCodePeersMap: state.liveCodePeersMap,
-    activeLiveCodePeerId: state.activeLiveCodePeerId,
-});
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-    setActiveLiveCodePeer: (peerid: string|null) => dispatch({ type: ActionType.SET_ACTIVE_LIVECODE_PEER, payload: peerid })
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(ChatLeftPanel); 
+export default ChatLeftPanel

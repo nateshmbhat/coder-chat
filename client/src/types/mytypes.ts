@@ -1,3 +1,5 @@
+import { Action } from 'easy-peasy' ;
+
 enum SocketEvents {
     CHATMESSAGE = 'chat-message',
     LIVECODETEXT = 'live-code-text'
@@ -22,9 +24,9 @@ enum Colors{
 export interface LiveCodePeerMessage extends ChatMessageType{
     language: string;
 };
-export interface GlobalStateType {
+export interface GlobalStoreType {
     totalRows: number,
-    serverConnection: boolean,
+    serverConnectedFlag: boolean,
     internetAccess: boolean,
     sessions: SessionType[],
     chatMessages: ChatMessageType[],
@@ -33,7 +35,17 @@ export interface GlobalStateType {
     liveCodingOpen: boolean,
     liveCodeText: string,
     liveCodePeersMap : senderToLiveCodeMap ,
-    activeLiveCodePeerId : string|null
+    activeLiveCodePeerId : string|null  , 
+
+    setInternetAccess : Action<GlobalStoreType,boolean> , 
+    setActiveLiveCodePeer: Action<GlobalStoreType,string|null> , 
+    setServerConnectedFlag: Action<GlobalStoreType,boolean> , 
+    addChatMessage: Action<GlobalStoreType,ChatMessageType> , 
+    setUsername: Action<GlobalStoreType,string> , 
+    setUserId: Action<GlobalStoreType,string> , 
+    toggleLiveCodeEditor: Action<GlobalStoreType,undefined> , 
+    setLiveCodeText : Action<GlobalStoreType,string> , 
+    addLiveCodePeer : Action<GlobalStoreType,LiveCodePeerMessage>
 }
 
 export interface senderToLiveCodeMap{

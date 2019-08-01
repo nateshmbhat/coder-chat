@@ -3,19 +3,15 @@ import { sendChatMessage } from '../handlers/chat/sender';
 import { connect } from 'react-redux';
 import computerIcon from './icons/computer.svg';
 import styled from 'styled-components';
-import { ShadowAndHoverShadow } from '../styled-component-styles/styles';
 import { Dispatch } from 'redux';
-import { ActionType } from '../types/reducerTypes';
 import { Button, Icon } from 'semantic-ui-react';
+import { useStoreState, useStoreActions } from '../store/globalStore';
 
-interface ChatSendPanelProps {
-    totalRows: number,
-    liveCodingOpen: boolean , 
-    toggleLiveCodeEditor: () => void
-};
 
-const ChatSendPanel = (props: ChatSendPanelProps) => {
-    const totalRows = props.totalRows;
+const ChatSendPanel = () => {
+    const [totalRows , liveCodingOpen ] = useStoreState((state ) =>  [state.totalRows , state.liveCodingOpen]) ; 
+    const toggleLiveCodeEditor = useStoreActions(actions=>actions.toggleLiveCodeEditor)
+
     const [message, setMessage] = useState('');
 
     const ComputerIcon = styled.img`
@@ -55,11 +51,11 @@ const ChatSendPanel = (props: ChatSendPanelProps) => {
             }}
             >
 
-                <ComputerIcon title="Live Code" onClick={(e) => props.toggleLiveCodeEditor()} src={computerIcon} />
+                <ComputerIcon title="Live Code" onClick={(e) => toggleLiveCodeEditor()} src={computerIcon} />
 
                 <div style={{
-                    height: props.liveCodingOpen?'0':'100%', 
-                    opacity:props.liveCodingOpen?0:1,
+                    height: liveCodingOpen?'0':'100%', 
+                    opacity:liveCodingOpen?0:1,
                     transition:'all 0.5s' , 
                     overflow:'hidden',
                     width: '100%',
@@ -80,7 +76,7 @@ const ChatSendPanel = (props: ChatSendPanelProps) => {
                             paddingRight: '5px',
                             transform:'all 0.5s' , 
                             borderTopLeftRadius: '8px',
-                            height: props.liveCodingOpen?'0':'100%',
+                            height: liveCodingOpen?'0':'100%',
                             width: '100%',
                             resize: 'none',
                             outline: 'none',
@@ -100,15 +96,4 @@ const ChatSendPanel = (props: ChatSendPanelProps) => {
 }
 
 
-const mapStateToProps = (state: ChatSendPanelProps) => ({
-    totalRows: state.totalRows,
-    liveCodingOpen: state.liveCodingOpen
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => {
-    return {
-        toggleLiveCodeEditor: () => dispatch({ type: ActionType.TOGGLE_LIVECODE_EDITOR })
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(ChatSendPanel); 
+export default (ChatSendPanel); 

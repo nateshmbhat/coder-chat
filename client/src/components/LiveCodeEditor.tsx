@@ -1,20 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
 import AceEditor from 'react-ace'
-import { ActionType } from '../types/reducerTypes';
-import { Dispatch } from 'redux';
 import { Button, Dropdown, Icon, Modal, Header } from 'semantic-ui-react';
 import { sendLiveCodeText } from '../handlers/chat/sender';
-import { ACE_EDITOR_LANGUAGES, ACE_EDITOR_THEMES, senderToLiveCodeMap } from '../types/mytypes';
-import 'brace/keybinding/vim' ; 
-
-
-interface LiveCodeEditorProps {
-    liveCodeText: string,
-    activeLiveCodePeerId: string,
-    setLiveCodeText: (text: string) => void
-    liveCodePeersMap : senderToLiveCodeMap ,
-}
+import { ACE_EDITOR_LANGUAGES, ACE_EDITOR_THEMES, senderToLiveCodeMap, GlobalStoreType } from '../types/mytypes';
+import 'brace/keybinding/vim';
+import { useStoreActions, useStoreState } from '../store/globalStore';
 
 
 ACE_EDITOR_LANGUAGES.forEach(lang => {
@@ -28,24 +18,29 @@ ACE_EDITOR_THEMES.forEach(theme => {
 
 
 
-const LiveCodeEditor = (props: LiveCodeEditorProps) => {
+const LiveCodeEditor = () => {
+
+    const [liveCodeText, activeLiveCodePeerId, liveCodePeersMap] = useStoreState(state => [state.liveCodeText, state.activeLiveCodePeerId, state.liveCodePeersMap]);
+    const setLiveCodeText = useStoreActions(actions=>actions.setLiveCodeText)
+
+
     const [theme, setTheme] = useState('monokai');
     const [vimEnabled, setVimEnabled] = useState(false);
     const [codeLanguage, setCodeLanguage] = useState('java');
     const [showSettings, setShowSettings] = useState(false);
-    const [showModal , toggleModal] = useState(false) ; 
-    const [codeSelected , setCodeSelected] = useState('') ; 
+    const [showModal, toggleModal] = useState(false);
+    const [codeSelected, setCodeSelected] = useState('');
 
 
 
     const codeChangeHandler = (value: string, event: any) => {
-        props.setLiveCodeText(value);
-        if (value !== props.liveCodeText) {
+        setLiveCodeText(value);
+        if (value !== liveCodeText) {
             //If the user has entered something new , then send this to the server
-            sendLiveCodeText(value , codeLanguage);
+            sendLiveCodeText(value, codeLanguage);
         }
     }
-    const activePeer = props.activeLiveCodePeerId ;
+    const activePeer = activeLiveCodePeerId;
 
     const EditorSettingsPanel = () => (
         <div style={{
@@ -65,7 +60,7 @@ const LiveCodeEditor = (props: LiveCodeEditorProps) => {
             } />
 
 
-            <Dropdown placeholder='Language' value={ activePeer!=null?props.liveCodePeersMap[activePeer].language:codeLanguage} selection options={
+            <Dropdown placeholder='Language' value={activePeer != null ? liveCodePeersMap[activePeer].language : codeLanguage} selection options={
                 ACE_EDITOR_LANGUAGES.map(lang => ({
                     text: lang, value: lang
                 }))
@@ -84,24 +79,24 @@ const LiveCodeEditor = (props: LiveCodeEditorProps) => {
 
 
             <Modal
-        open={showModal}
-        onClose={e=>toggleModal(!showModal)}
-        basic
-        size='small'
-      >
-        <Header icon='browser' content='Code Copied !' />
-        <Modal.Content>
-            <code style={{whiteSpace:'pre-wrap'}}>
-                {codeSelected}
-            </code>
-        </Modal.Content>
-        <Modal.Actions>
-          <Button color='green' onClick={e=>toggleModal(!showModal)} inverted>
-            <Icon name='checkmark' /> Got it
+                open={showModal}
+                onClose={e => toggleModal(!showModal)}
+                basic
+                size='small'
+            >
+                <Header icon='browser' content='Code Copied !' />
+                <Modal.Content>
+                    <code style={{ whiteSpace: 'pre-wrap' }}>
+                        {codeSelected}
+                    </code>
+                </Modal.Content>
+                <Modal.Actions>
+                    <Button color='green' onClick={e => toggleModal(!showModal)} inverted>
+                        <Icon name='checkmark' /> Got it
           </Button>
-        </Modal.Actions>
-      </Modal>
- 
+                </Modal.Actions>
+            </Modal>
+
 
 
             <div style={{ display: 'relative', height: '100%' }}>
@@ -116,18 +111,18 @@ const LiveCodeEditor = (props: LiveCodeEditorProps) => {
                     mode={codeLanguage}
                     theme={theme}
                     name="my-code-editor-main"
-                    value={props.activeLiveCodePeerId==null?props.liveCodeText: props.liveCodePeersMap[props.activeLiveCodePeerId].msg }
-                    style={{ height: '100%', width: '100%' , marginTop:'3px' }}
+                    value={activeLiveCodePeerId == null ? liveCodeText : liveCodePeersMap[activeLiveCodePeerId].msg}
+                    style={{ height: '100%', width: '100%', marginTop: '3px' }}
                     onChange={codeChangeHandler}
-                    onFocus={e=>setShowSettings(false)}
-                    onCopy={e=>toggleModal(!showModal)}
-                    onSelectionChange={(selection :AceEditor , event)=> {
-                        const selectedText = selection.doc.getTextRange(selection.getRange()) ;
-                        setCodeSelected(selectedText) ; 
+                    onFocus={e => setShowSettings(false)}
+                    onCopy={e => toggleModal(!showModal)}
+                    onSelectionChange={(selection: AceEditor, event) => {
+                        const selectedText = selection.doc.getTextRange(selection.getRange());
+                        setCodeSelected(selectedText);
                     }}
                     focus
-                    keyboardHandler={vimEnabled?'vim':'default'}
-                    readOnly={props.activeLiveCodePeerId != null}
+                    keyboardHandler={vimEnabled ? 'vim' : 'default'}
+                    readOnly={activeLiveCodePeerId != null}
                     setOptions={{
                         animatedScroll: true,
                         displayIndentGuides: true,
@@ -142,18 +137,5 @@ const LiveCodeEditor = (props: LiveCodeEditorProps) => {
     );
 };
 
-const mapStateToProps = (state: LiveCodeEditorProps) => {
-    return {
-        liveCodeText: state.liveCodeText,
-        activeLiveCodePeerId: state.activeLiveCodePeerId, 
-        liveCodePeersMap : state.liveCodePeersMap
-    }
-}
 
-const mapDispatchToProps = (dispatch: Dispatch) => {
-    return {
-        setLiveCodeText: (text: string) => dispatch({ type: ActionType.SET_LIVECODE_TEXT, payload: text })
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(LiveCodeEditor); 
+export default (LiveCodeEditor); 

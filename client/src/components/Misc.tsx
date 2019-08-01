@@ -7,4 +7,10 @@ const BigLoaderCentered = (props: {inverted? : boolean})=>(<div style={{ positio
     </div>
 </div>);
 
-export { BigLoaderCentered }; 
+const SizedBox = (props:{height?:string,width?:string}={height:'100px' , width:'100px'})=>{
+    return(
+        <div style={{height:props.height, width :props.width}}></div>
+    )
+}
+
+export { BigLoaderCentered , SizedBox }; 

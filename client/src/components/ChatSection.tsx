@@ -1,27 +1,19 @@
-import { connect } from "react-redux";
 import React, { Suspense } from 'react' ; 
 import { ChatMessage } from "./ChatMessage";
-import { ChatMessageType } from "../types/mytypes";
+import { ChatMessageType, GlobalStoreType } from '../types/mytypes';
 import { BigLoaderCentered } from "./Misc";
+import { useStoreState } from '../store/globalStore';
 const LiveCodeEditor = React.lazy(()=> import("./LiveCodeEditor"))  ;
 
-interface ChatSectionStateProp{
-    totalRows : number  ,
-    chatMessages : ChatMessageType[]
-    myUserId : string , 
-    myUserName : string , 
-    liveCodingOpen : boolean  , 
-    liveCodeText : string,
-}
 
-const ChatSection: React.FC<ChatSectionStateProp> = (props) => {
-    const totalRows = props.totalRows
 
-    const chatMessages = props.chatMessages.map((chat,idx)=>{
+const ChatSection =()=> {
+    const [totalRows ,chatMessages ,myUserId , liveCodingOpen] = useStoreState((state)=>[state.totalRows , state.chatMessages , state.myUserId , state.liveCodingOpen])
 
-        console.log('props.myuserid = ' , props.myUserId , ' chat.senderid = ' , chat.senderid) ; 
+    const chatMessagesComponent = chatMessages.map((chat,idx)=>{
+        console.log('props.myuserid = ' , myUserId , ' chat.senderid = ' , chat.senderid) ; 
         return(
-            <ChatMessage key={idx} msg={chat.msg} sender={chat.sendername} time={chat.time} isMyMessage={props.myUserId==chat.senderid} />
+            <ChatMessage key={idx} msg={chat.msg} sender={chat.sendername} time={chat.time} isMyMessage={myUserId==chat.senderid} />
         );
     })
 
@@ -37,24 +29,16 @@ const ChatSection: React.FC<ChatSectionStateProp> = (props) => {
         
 
         {
-            props.liveCodingOpen &&
+            liveCodingOpen &&
             <Suspense fallback={ <BigLoaderCentered inverted={true}/> }>
                 <LiveCodeEditor/>
             </Suspense> || 
-            chatMessages
+            chatMessagesComponent
         }
 
         </div>
     );
 }
 
-const mapStateToProps = (state:ChatSectionStateProp)=>({
-    totalRows : state.totalRows , 
-    chatMessages : state.chatMessages , 
-    myUserId : state.myUserId , 
-    myUserName : state.myUserName  , 
-    liveCodingOpen: state.liveCodingOpen , 
-    liveCodeText : state.liveCodeText , 
-});
 
-export default connect(mapStateToProps)(ChatSection) ; 
+export default ChatSection ; 

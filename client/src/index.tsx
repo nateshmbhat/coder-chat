@@ -6,9 +6,10 @@ import {Provider} from 'react-redux'
 import * as serviceWorker from './serviceWorker';
 import { globalStore } from './store/globalStore';
 import 'semantic-ui-css/semantic.min.css' ; 
+import { StoreProvider } from 'easy-peasy';
 
 ReactDOM.render( 
-   <Provider store={globalStore}> <App/> </Provider> , document.getElementById('root'));
+   <StoreProvider store={globalStore}> <App/> </StoreProvider> , document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
