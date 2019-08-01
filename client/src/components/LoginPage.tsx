@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { ButtonHoverableMd, InputTextStyled } from '../styled-component-styles/styles';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
-import { Message, Card, Input, Segment, Header, Icon, Grid, Container, Button } from 'semantic-ui-react';
+import { Message, Card, Input, Segment, Header, Icon, Grid, Container, Button, Divider } from 'semantic-ui-react';
 import { LocalStorageItemNames } from '../types/mytypes';
 import { useStoreActions } from '../store/globalStore';
 import { SizedBox } from './Misc';
@@ -32,15 +31,20 @@ const LoginPage = (props: RouteComponentProps) => {
 
     return (
         <>
-            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', height: '100vh' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-around', height: '100vh' }}>
                 <Container>
-                    <Segment placeholder>
+                    <Segment placeholder color='teal' >
                         <Header icon>
-                            <Icon name='user' />
-                            No documents are listed for this customer.
+                            <Icon name='user circle' color='violet' />
+                            Enter your credentials
                 </Header>
                         <Input onChange={e => setUsername(e.target.value)} value={username} placeholder="Your Name" />
+
+                        <SizedBox />
                         <Input onChange={e => setUserId(e.target.value)} value={userid} placeholder="Gmail ID" />
+                        <SizedBox />
+                        <Button content='Go' icon={<Icon name='paper plane outline'/>} onClick={ e=>handleLoginClick(props) } />
+                    </Segment>
                         {
                             error &&
                             <Message negative>
@@ -49,17 +53,10 @@ const LoginPage = (props: RouteComponentProps) => {
                             </Message>
                         }
 
-                        <SizedBox />
-                        <Button content='Go' icon={<Icon name='paper plane outline'/>} />
-                    </Segment>
                 </Container>
-                <SizedBox height='300px' />
-
+                <SizedBox />
             </div>
         </>
-
-
-
     );
 }
 export default (withRouter(LoginPage)); 

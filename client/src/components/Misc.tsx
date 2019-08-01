@@ -7,9 +7,10 @@ const BigLoaderCentered = (props: {inverted? : boolean})=>(<div style={{ positio
     </div>
 </div>);
 
-const SizedBox = (props:{height?:string,width?:string}={height:'100px' , width:'100px'})=>{
+const SizedBox = (props:{height?:string,width?:string})=>{
+    console.log('height = ' , props.height)
     return(
-        <div style={{height:props.height, width :props.width}}></div>
+        <div style={{height:props.height||'10px', width :props.width||'10px'}}></div>
     )
 }
 
