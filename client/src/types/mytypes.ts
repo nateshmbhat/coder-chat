@@ -9,6 +9,19 @@ const ACE_EDITOR_LANGUAGES = [ "java","c_cpp", "javascript", "python", "html"];
   
 const ACE_EDITOR_THEMES = [ "monokai", "github", "tomorrow", 'tomorrow_night_blue','pastel_on_dark','merbivore','dracula','cobalt','clouds','chaos','ambiance', "kuroir", "twilight", "xcode", "textmate", "solarized_dark", "solarized_light", "terminal" ];
 
+export enum MessageTypes {
+    error='error' , 
+    warning='warning' , 
+    info='info'
+}
+
+export enum NavLinkPaths {
+    schemes = '/config/schemes' , 
+    profiles = '/config/profiles' , 
+    globals = '/config/globals' , 
+    home = '/'
+}
+
 
 enum LocalStorageItemNames { //this is used to store data locally in localstorage with either of the following enumerations.
     CODER_CHAT_USER_NAME = 'coder-chat-user-name'  ,

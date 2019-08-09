@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import AceEditor from 'react-ace'
-import { Button, Dropdown, Icon, Modal, Header } from 'semantic-ui-react';
+import { Button, Dropdown, Icon, Modal, Header, Message } from 'semantic-ui-react';
 import { sendLiveCodeText } from '../handlers/chat/sender';
 import { ACE_EDITOR_LANGUAGES, ACE_EDITOR_THEMES, senderToLiveCodeMap, GlobalStoreType } from '../types/mytypes';
 import 'brace/keybinding/vim';
 import { useStoreActions, useStoreState } from '../store/globalStore';
-
+import { useMessage } from '../hooks/useMessage';
+import {saveAs} from 'file-saver' ; 
 
 ACE_EDITOR_LANGUAGES.forEach(lang => {
     require(`brace/mode/${lang}`);
@@ -17,20 +18,16 @@ ACE_EDITOR_THEMES.forEach(theme => {
 });
 
 
-
 const LiveCodeEditor = () => {
 
-    const [liveCodeText, activeLiveCodePeerId, liveCodePeersMap] = useStoreState(state => [state.liveCodeText, state.activeLiveCodePeerId, state.liveCodePeersMap]);
+    const [liveCodeText, activeLiveCodePeerId, liveCodePeersMap, myUsername] = useStoreState(state => [state.liveCodeText, state.activeLiveCodePeerId, state.liveCodePeersMap , state.myUsername]);
     const setLiveCodeText = useStoreActions(actions=>actions.setLiveCodeText)
-
+    const {popupMessage,showInfoMessage} = useMessage() ; 
 
     const [theme, setTheme] = useState('monokai');
     const [vimEnabled, setVimEnabled] = useState(false);
     const [codeLanguage, setCodeLanguage] = useState('java');
     const [showSettings, setShowSettings] = useState(false);
-    const [showModal, toggleModal] = useState(false);
-    const [codeSelected, setCodeSelected] = useState('');
-
 
 
     const codeChangeHandler = (value: string, event: any) => {
@@ -71,33 +68,16 @@ const LiveCodeEditor = () => {
             } />
 
             <Button toggle active={vimEnabled} onClick={e => setVimEnabled(!vimEnabled)}>Vim</Button>
+            <Button onClick={e => {
+                var blob = new Blob([ activePeer==null?liveCodeText:liveCodePeersMap[activePeer].msg], { type: "text/plain;charset=utf-8" });
+                saveAs(blob, `${activePeer||myUsername}-${codeLanguage}` );
+            }} icon={<Icon name='download'/>} />
         </div>
     );
 
     return (
         <>
-
-
-            <Modal
-                open={showModal}
-                onClose={e => toggleModal(!showModal)}
-                basic
-                size='small'
-            >
-                <Header icon='browser' content='Code Copied !' />
-                <Modal.Content>
-                    <code style={{ whiteSpace: 'pre-wrap' }}>
-                        {codeSelected}
-                    </code>
-                </Modal.Content>
-                <Modal.Actions>
-                    <Button color='green' onClick={e => toggleModal(!showModal)} inverted>
-                        <Icon name='checkmark' /> Got it
-          </Button>
-                </Modal.Actions>
-            </Modal>
-
-
+            <Message hidden={popupMessage.hidden} header={popupMessage.header} content={popupMessage.message} />
 
             <div style={{ display: 'relative', height: '100%' }}>
                 <div style={{ opacity: 0.8, position: 'absolute', zIndex: 10, textAlign: 'right', right: 0 }}>
@@ -115,11 +95,7 @@ const LiveCodeEditor = () => {
                     style={{ height: '100%', width: '100%', marginTop: '3px' }}
                     onChange={codeChangeHandler}
                     onFocus={e => setShowSettings(false)}
-                    onCopy={e => toggleModal(!showModal)}
-                    onSelectionChange={(selection: AceEditor, event) => {
-                        const selectedText = selection.doc.getTextRange(selection.getRange());
-                        setCodeSelected(selectedText);
-                    }}
+                    onCopy={e => showInfoMessage('Code copied' , 'Info') }
                     focus
                     keyboardHandler={vimEnabled ? 'vim' : 'default'}
                     readOnly={activeLiveCodePeerId != null}

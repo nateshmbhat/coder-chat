@@ -27,7 +27,6 @@ const ChatLeftPanel = () => {
                         {liveCodePeersMap[peerid].language}
                     </p>
                 </Button>
-
             </div>
         );
     })
