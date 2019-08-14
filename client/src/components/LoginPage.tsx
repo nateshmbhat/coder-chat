@@ -7,7 +7,7 @@ import { SizedBox } from './Misc';
 
 
 const LoginPage = (props: RouteComponentProps) => {
-    const [setStoreUserId, setStoreUserName] = useStoreActions(actions => [actions.setUserId, actions.setUsername])
+    const [setStoreUserId, setStoreUserName] = useStoreActions(actions => [actions.setUserId, actions.setUsername]);
 
     const [username, setUsername] = useState('');
     const [userid, setUserId] = useState('');

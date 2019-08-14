@@ -10,12 +10,13 @@ import registerCallbacks from './routes/chat';
 
 const server = new http.Server(app) ; 
 const io = socketIO(server) ; 
+const port = process.env.PORT||9000 ; 
 
 
-server.listen(9000);
+server.listen(port);
 // WARNING: app.listen(80) will NOT work here!
 
-app.set('port' , process.env.PORT ||  9000) ; 
+app.set('port' , port) ; 
 
 app.use(logger('dev'));
 app.use(express.json());
