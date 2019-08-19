@@ -1,9 +1,9 @@
 import React, { Suspense } from 'react' ; 
 import { ChatMessage } from "./ChatMessage";
-import { ChatMessageType, GlobalStoreType } from '../types/mytypes';
-import { BigLoaderCentered } from "./Misc";
-import { useStoreState } from '../store/globalStore';
-const LiveCodeEditor = React.lazy(()=> import("./LiveCodeEditor"))  ;
+import { ChatMessageType, GlobalStoreType } from '../../types/types';
+import { BigLoaderCentered } from "../Misc";
+import { useStoreState } from '../../store/globalStore';
+const LiveCodeEditor = React.lazy(()=> import("../LiveCodeEditor"))  ;
 
 
 
@@ -25,7 +25,6 @@ const ChatSection =()=> {
                 gridColumn:'3 / 13' , 
                 gridRow:`2 / ${totalRows+1}` 
         }} >
-
         
 
         {

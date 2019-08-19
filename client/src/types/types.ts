@@ -1,8 +1,10 @@
 import { Action } from 'easy-peasy' ;
+import { LiveCodePeerToCodeObject } from '../../../server/src/types/types';
 
-enum SocketEvents {
+enum SocketChannel {
     CHATMESSAGE = 'chat-message',
-    LIVECODETEXT = 'live-code-text'
+    LIVECODETEXT = 'live-code-text' , 
+    GET_LIVE_CODE_MAPPING = 'get-live-code-mapping', 
 };
 
 const ACE_EDITOR_LANGUAGES = [ "java","c_cpp", "javascript", "python", "html"];
@@ -16,10 +18,10 @@ export enum MessageTypes {
 }
 
 export enum NavLinkPaths {
-    schemes = '/config/schemes' , 
-    profiles = '/config/profiles' , 
-    globals = '/config/globals' , 
-    home = '/'
+    home = '/' , 
+    login= '/login' , 
+    livecode = '/livecode' , 
+    chat = '/chat' , 
 }
 
 
@@ -37,6 +39,7 @@ enum Colors{
 export interface LiveCodePeerMessage extends ChatMessageType{
     language: string;
 };
+
 export interface GlobalStoreType {
     totalRows: number,
     serverConnectedFlag: boolean,
@@ -47,9 +50,11 @@ export interface GlobalStoreType {
     myUsername: string,
     liveCodingOpen: boolean,
     liveCodeText: string,
-    liveCodePeersMap : senderToLiveCodeMap ,
+    liveCodePeersToCodeMap : senderToLiveCodeMap ,
     activeLiveCodePeerId : string|null  , 
 
+
+    updateLiveCodePeersToCodeMap  : Action<GlobalStoreType , LiveCodePeerToCodeObject > , 
     setInternetAccess : Action<GlobalStoreType,boolean> , 
     setActiveLiveCodePeer: Action<GlobalStoreType,string|null> , 
     setServerConnectedFlag: Action<GlobalStoreType,boolean> , 
@@ -91,4 +96,4 @@ export interface SessionType {
     date: Date
 }
 
-export { SocketEvents as ChatEvents , ACE_EDITOR_LANGUAGES ,ACE_EDITOR_THEMES , LocalStorageItemNames  , Colors}; 
+export { SocketChannel , ACE_EDITOR_LANGUAGES ,ACE_EDITOR_THEMES , LocalStorageItemNames  , Colors}; 

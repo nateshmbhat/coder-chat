@@ -1,5 +1,6 @@
-import { GlobalStoreType, LocalStorageItemNames } from '../types/mytypes';
+import { GlobalStoreType, LocalStorageItemNames } from '../types/types';
 import { action , createStore , createTypedHooks } from 'easy-peasy';
+import { getSessionId } from '../Utils/utils';
 
 const initialState: GlobalStoreType = {
     totalRows: Math.ceil(window.innerHeight / 20),
@@ -11,11 +12,13 @@ const initialState: GlobalStoreType = {
     myUsername: localStorage.getItem(LocalStorageItemNames.CODER_CHAT_USER_NAME) || 'Anonymous' ,
     liveCodingOpen: false,
     liveCodeText: '',
-    liveCodePeersMap: {},//{myid  : {senderid:'myid' , time : (new Date())  , language :'java' , msg:'int i = 0 ;', sendername:'anonymous' , sessionid:'anonymous'}} , 
+    liveCodePeersToCodeMap: {},//{myid  : {senderid:'myid' , time : (new Date())  , language :'java' , msg:'int i = 0 ;', sendername:'anonymous' , sessionid:'anonymous'}} , 
     activeLiveCodePeerId : null , 
 
 // Actions 
-
+    updateLiveCodePeersToCodeMap : action((state,obj)=>{
+        state.liveCodePeersToCodeMap[obj.senderid] = {...obj , time : new Date() , sessionid : getSessionId() }  ; 
+    })  , 
     setActiveLiveCodePeer : action((state,peerid)=>{state.activeLiveCodePeerId = peerid ; }) , 
     setInternetAccess : action((state,flag)=>{state.internetAccess = flag ; }) ,
     setLiveCodeText : action((state,text)=>{state.liveCodeText = text}) , 
@@ -24,7 +27,7 @@ const initialState: GlobalStoreType = {
     setUsername: action((state,name)=>{state.myUsername= name}) , 
     addChatMessage: action((state,chat)=>{state.chatMessages.push(chat)}) , 
     toggleLiveCodeEditor : action((state)=>{ state.liveCodingOpen = !state.liveCodingOpen}) , 
-    addLiveCodePeer : action((state,peer)=>{state.liveCodePeersMap[peer.senderid] = peer}) , 
+    addLiveCodePeer : action((state,peer)=>{state.liveCodePeersToCodeMap[peer.senderid] = peer}) , 
 }
 
 const globalStore = createStore(initialState) ; 

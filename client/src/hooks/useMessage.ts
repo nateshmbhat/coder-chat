@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { MessageTypes } from '../types/mytypes';
+import { MessageTypes } from '../types/types';
 
 export const useMessage = () => {
     const [popupMessage, setPopupMessage] = React.useState({ hidden: true, message: '', header: 'Success', type: MessageTypes.info })

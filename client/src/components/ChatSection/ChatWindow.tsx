@@ -3,8 +3,8 @@ import ChatSendPanel from './ChatSendPanel';
 import  ChatSection from './ChatSection';
 import ChatLeftPanel from './ChatLeftSidePanel' ; 
 import { ChatHeader } from './ChatHeader';
-import { LocalStorageItemNames, GlobalStoreType } from '../types/mytypes';
-import { useStoreState } from '../store/globalStore';
+import { LocalStorageItemNames, GlobalStoreType } from '../../types/types';
+import { useStoreState } from '../../store/globalStore';
 
 
 const ChatRoom = () => {
@@ -16,17 +16,11 @@ const ChatRoom = () => {
     }
     return (
         <>
-            <div style={{
-                display: 'grid' ,
-                height:'100vh' , 
-                gridTemplateColumns  : 'repeat(12,1fr)' , 
-                gridTemplateRows  : `repeat(${totalRows},1fr)` , 
-            }}>
-                <ChatLeftPanel />
-                <ChatHeader/>
-                <ChatSection/>
-                <ChatSendPanel/>
-            </div>
+        <div style={{height:'100vh'}}>
+            <ChatLeftPanel />
+            <ChatSection/>
+            <ChatSendPanel/>
+        </div>
         </>
     );
 }

@@ -25,3 +25,8 @@ code {
 .CodeMirror-linenumbers{
   margin-right: 10px ; 
 }
+
+.mh1{
+  margin-left: '100px' ; 
+  margin-right: '100px' ; 
+}

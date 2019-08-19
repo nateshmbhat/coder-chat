@@ -1,24 +1,29 @@
-import { ChatEvents, MessageReceiveBody, ChatMessageType, LiveCodePeerMessage} from "../../types/mytypes";
+import { SocketChannel, MessageReceiveBody, ChatMessageType, LiveCodePeerMessage} from "../../types/types";
 import { globalStore } from "../../store/globalStore";
+import { getSessionId } from '../../Utils/utils';
+import { sendGetLiveCodeMapToServer } from "./sender";
 
 const registerCallbacks = (sock : SocketIOClient.Socket )=>{
     console.log('Registering Callbacks... ');
 
-    sock.on(ChatEvents.CHATMESSAGE , (msgObject:MessageReceiveBody)=>{
+    sock.on(SocketChannel.CHATMESSAGE , (msgObject:MessageReceiveBody)=>{
       console.log("message from server : " , msgObject ) ; 
 
-      const date = new Date() ; 
-      const sessionId = `${date.getDate()}${date.getMonth()}${date.getFullYear()}`
-
-      const chat : ChatMessageType = {msg:msgObject.msg , senderid : msgObject.senderid , sendername : msgObject.sendername || msgObject.senderid , sessionid : sessionId ,time : new Date()  }
+      const chat : ChatMessageType = {msg:msgObject.msg , senderid : msgObject.senderid , sendername : msgObject.sendername || msgObject.senderid , sessionid : getSessionId() ,time : new Date()  }
 
       globalStore.getActions().addChatMessage(chat) ; 
-
     })
 
-    sock.on(ChatEvents.LIVECODETEXT , (msgObject:LiveCodePeerMessage)=>{
+    sock.on(SocketChannel.LIVECODETEXT , (msgObject:LiveCodePeerMessage)=>{
       console.log("message from server : " , msgObject ) ; 
-      globalStore.getActions().addLiveCodePeer(msgObject)
+      if(Object.keys(msgObject).length>0){
+        globalStore.getActions().addLiveCodePeer(msgObject)
+      }
+    })
+
+    sock.on('connect', ()=>{
+      console.log('connected to server' )
+      sendGetLiveCodeMapToServer() 
     })
 }    
 

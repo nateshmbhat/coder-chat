@@ -1,23 +1,41 @@
 import socketIo from "socket.io"; 
-import { ChatEvents, ChatMessageReceiveBody, ChatMessageSendingBody, LiveMessageType } from "../types/types";
+import { SocketChannel, ChatMessageReceiveBody, ChatMessageSendingBody, LiveMessageType } from "../types/types";
+import { globalStore, storeActions } from '../store/reducer';
 
 const registerCallbacks = (soc : socketIo.Socket, io : SocketIO.Server )=>{
     console.log('/chat connected : ' , soc.id ) ; 
+
+    soc.on('disconnect' , (reason:any)=>{
+      console.log('disconnected ' + soc.id , reason ) 
+      storeActions.removeDisconnectedClient({socketid : soc.id})
+    })
+
   
-    soc.on( ChatEvents.CHATMESSAGE  , (msgObject : ChatMessageReceiveBody)=>{
+    soc.on( SocketChannel.CHATMESSAGE  , (msgObject : ChatMessageReceiveBody)=>{
       console.log('message from : ' , soc.id  , ' : ', msgObject) ; 
       
-      soc.broadcast.emit( ChatEvents.CHATMESSAGE  , {
+      const messageToSend : ChatMessageSendingBody = {
         senderSocketId : soc.id , 
         senderid : msgObject.senderid , 
         msg : msgObject.msg , 
         sendername : msgObject.sendername
-      } as ChatMessageSendingBody) ; 
+      }
+
+      soc.broadcast.emit( SocketChannel.CHATMESSAGE  , messageToSend ) ; 
+
     })
 
-    soc.on( ChatEvents.LIVECODETEXT , (msgObject : LiveMessageType)=>{
+    soc.on( SocketChannel.LIVECODETEXT , (msgObject : LiveMessageType)=>{
       console.log('message from : ' , soc.id  , ' : ', msgObject) ; 
-      soc.broadcast.emit( ChatEvents.LIVECODETEXT , msgObject ) ; 
+
+      storeActions.updateLiveCodeMapping(msgObject)
+      soc.broadcast.emit( SocketChannel.LIVECODETEXT , msgObject ) ; 
+    })
+
+
+    soc.on(SocketChannel.GET_LIVE_CODE_MAPPING , (msg:any)=>{
+      console.log('message from : ' , soc.id  , ' : ', msg) ;
+      soc.emit( SocketChannel.LIVECODETEXT , globalStore.getState().liveCodePeersToCodeMap) ; 
     })
 }
 

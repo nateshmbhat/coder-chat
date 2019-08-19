@@ -1,19 +1,23 @@
 import React, { useState } from 'react';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { Message, Card, Input, Segment, Header, Icon, Grid, Container, Button, Divider } from 'semantic-ui-react';
-import { LocalStorageItemNames } from '../types/mytypes';
-import { useStoreActions } from '../store/globalStore';
-import { SizedBox } from './Misc';
+import useReactRouter from 'use-react-router';
+import { LocalStorageItemNames } from '../../types/types';
+import { useStoreActions } from '../../store/globalStore';
+import { SizedBox } from '../Misc';
 
 
-const LoginPage = (props: RouteComponentProps) => {
+const LoginPage = () => {
     const [setStoreUserId, setStoreUserName] = useStoreActions(actions => [actions.setUserId, actions.setUsername]);
-
     const [username, setUsername] = useState('');
     const [userid, setUserId] = useState('');
     const [error, toggleError] = useState(false);
+    const { history, location, match } = useReactRouter();
+    console.log('history , loc , match = ', history, location, match)
+    if (userid != undefined) {
+        history.push('/chat');
+    }
 
-    const handleLoginClick = (props: RouteComponentProps) => {
+    const handleLoginClick = () => {
         if (!userid.match('^[a-z0-9.]+@gmail\.com$') || !username.match('^[a-zA-Z]{3,}$')) {
             toggleError(true);
             return;
@@ -26,7 +30,7 @@ const LoginPage = (props: RouteComponentProps) => {
         setStoreUserName(username);
         localStorage.setItem(LocalStorageItemNames.CODER_CHAT_USER_NAME, username);
         localStorage.setItem(LocalStorageItemNames.CODER_CHAT_USER_EMAILID, userid);
-        props.history.push('/chat');
+        history.push('/chat');
     }
 
     return (
@@ -43,15 +47,15 @@ const LoginPage = (props: RouteComponentProps) => {
                         <SizedBox />
                         <Input onChange={e => setUserId(e.target.value)} value={userid} placeholder="Gmail ID" />
                         <SizedBox />
-                        <Button content='Go' icon={<Icon name='paper plane outline'/>} onClick={ e=>handleLoginClick(props) } />
+                        <Button content='Go' icon={<Icon name='paper plane outline' />} onClick={e => handleLoginClick()} />
                     </Segment>
-                        {
-                            error &&
-                            <Message negative>
-                                <Message.Header>Invalid Name or Email entered ! </Message.Header>
-                                <p>Make sure that name field doesn't contain any special characters and E-mail is a valid gmail id.</p>
-                            </Message>
-                        }
+                    {
+                        error &&
+                        <Message negative>
+                            <Message.Header>Invalid Name or Email entered ! </Message.Header>
+                            <p>Make sure that name field doesn't contain any special characters and E-mail is a valid gmail id.</p>
+                        </Message>
+                    }
 
                 </Container>
                 <SizedBox />
@@ -59,4 +63,5 @@ const LoginPage = (props: RouteComponentProps) => {
         </>
     );
 }
-export default (withRouter(LoginPage)); 
+
+export default LoginPage; 

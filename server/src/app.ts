@@ -7,6 +7,7 @@ const app = require('express')();
 import http  from 'http'
 import socketIO  from 'socket.io' ; 
 import registerCallbacks from './routes/chat';
+import { storeActions } from './store/reducer';
 
 const server = new http.Server(app) ; 
 const io = socketIO(server) ; 
@@ -30,9 +31,11 @@ app.get('/', function (req : express.Request, res : express.Response) {
   res.send('index page')
 });
 
-io.of('/chat').on('connection', (soc : SocketIO.Socket)=>{
+io.of('/chat').on('connect', (soc : SocketIO.Socket)=>{
+  storeActions.addConnectedClient({socketid:soc.id}) ; 
   registerCallbacks(soc , io) ;  
 })
+
 
 module.exports = {
   io : io , 

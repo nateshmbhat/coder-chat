@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import AceEditor from 'react-ace'
 import { Button, Dropdown, Icon, Modal, Header, Message } from 'semantic-ui-react';
 import { sendLiveCodeText } from '../handlers/chat/sender';
-import { ACE_EDITOR_LANGUAGES, ACE_EDITOR_THEMES, senderToLiveCodeMap, GlobalStoreType } from '../types/mytypes';
+import { ACE_EDITOR_LANGUAGES, ACE_EDITOR_THEMES, senderToLiveCodeMap, GlobalStoreType } from '../types/types';
 import 'brace/keybinding/vim';
 import { useStoreActions, useStoreState } from '../store/globalStore';
 import { useMessage } from '../hooks/useMessage';
@@ -20,7 +20,7 @@ ACE_EDITOR_THEMES.forEach(theme => {
 
 const LiveCodeEditor = () => {
 
-    const [liveCodeText, activeLiveCodePeerId, liveCodePeersMap, myUsername] = useStoreState(state => [state.liveCodeText, state.activeLiveCodePeerId, state.liveCodePeersMap , state.myUsername]);
+    const [liveCodeText, activeLiveCodePeerId, liveCodePeersToCodeMap, myUsername] = useStoreState(state => [state.liveCodeText, state.activeLiveCodePeerId, state.liveCodePeersToCodeMap , state.myUsername]);
     const setLiveCodeText = useStoreActions(actions=>actions.setLiveCodeText)
     const {popupMessage,showInfoMessage} = useMessage() ; 
 
@@ -57,7 +57,7 @@ const LiveCodeEditor = () => {
             } />
 
 
-            <Dropdown placeholder='Language' value={activePeer != null ? liveCodePeersMap[activePeer].language : codeLanguage} selection options={
+            <Dropdown placeholder='Language' value={activePeer != null ? liveCodePeersToCodeMap[activePeer].language : codeLanguage} selection options={
                 ACE_EDITOR_LANGUAGES.map(lang => ({
                     text: lang, value: lang
                 }))
@@ -69,7 +69,7 @@ const LiveCodeEditor = () => {
 
             <Button toggle active={vimEnabled} onClick={e => setVimEnabled(!vimEnabled)}>Vim</Button>
             <Button onClick={e => {
-                var blob = new Blob([ activePeer==null?liveCodeText:liveCodePeersMap[activePeer].msg], { type: "text/plain;charset=utf-8" });
+                var blob = new Blob([ activePeer==null?liveCodeText:liveCodePeersToCodeMap[activePeer].msg], { type: "text/plain;charset=utf-8" });
                 saveAs(blob, `${activePeer||myUsername}-${codeLanguage}` );
             }} icon={<Icon name='download'/>} />
         </div>
@@ -91,7 +91,7 @@ const LiveCodeEditor = () => {
                     mode={codeLanguage}
                     theme={theme}
                     name="my-code-editor-main"
-                    value={activeLiveCodePeerId == null ? liveCodeText : liveCodePeersMap[activeLiveCodePeerId].msg}
+                    value={activeLiveCodePeerId == null ? liveCodeText : liveCodePeersToCodeMap[activeLiveCodePeerId].msg}
                     style={{ height: '100%', width: '100%', marginTop: '3px' }}
                     onChange={codeChangeHandler}
                     onFocus={e => setShowSettings(false)}
