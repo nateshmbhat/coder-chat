@@ -1,25 +1,23 @@
 import React, { useContext } from 'react';
-import ChatSendPanel from './ChatSendPanel';
 import  ChatSection from './ChatSection';
-import ChatLeftPanel from './ChatLeftSidePanel' ; 
-import { ChatHeader } from './ChatHeader';
-import { LocalStorageItemNames, GlobalStoreType } from '../../types/types';
+import ChatPeersCodePanel from './ChatLeftSidePanel' ; 
+import { LocalStorageItemNames, GlobalStoreType, NavLinkPaths } from '../../types/types';
 import { useStoreState } from '../../store/globalStore';
+import { NavBar } from '../NarBar/NavBar';
 
 
 const ChatRoom = () => {
-
-    const totalRows = useStoreState(state=> state.totalRows) ; 
-
     if(localStorage.getItem(LocalStorageItemNames.CODER_CHAT_USER_EMAILID)==null){
         window.location.href='/' ; 
     }
     return (
         <>
-        <div style={{height:'100vh'}}>
-            <ChatLeftPanel />
-            <ChatSection/>
-            <ChatSendPanel/>
+        <NavBar navPath={NavLinkPaths.chat} />
+        <div style={{height:'100%'}}>
+            <div style={{display:'flex'}}>
+                <ChatPeersCodePanel />
+                <ChatSection/>
+            </div>
         </div>
         </>
     );

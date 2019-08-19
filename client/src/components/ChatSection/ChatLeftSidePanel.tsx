@@ -1,13 +1,12 @@
 import React from 'react';
-import { senderToLiveCodeMap, Colors, GlobalStoreType } from '../../types/types';
-import { Button, Icon, Divider } from 'semantic-ui-react';
-import { Dispatch } from 'redux';
-import { globalStore, useStoreState, useStoreActions } from '../../store/globalStore';
+import {Colors} from '../../types/types';
+import { Button, Icon} from 'semantic-ui-react';
+import { useStoreState , useStoreActions } from '../../store/globalStore';
 
 
 // This is the left panel that runs from top to bottom of the page.
-const ChatLeftPanel = () => {
-    const [totalRows , liveCodePeersToCodeMap , activeLiveCodePeerId] = useStoreState(state =>  [state.totalRows,state.liveCodePeersToCodeMap , state.activeLiveCodePeerId ] ) ;
+const ChatUsersListPanel = () => {
+    const [liveCodePeersToCodeMap , activeLiveCodePeerId] = useStoreState(state =>  [state.liveCodePeersToCodeMap , state.activeLiveCodePeerId]) ;
     const setActiveLiveCodePeer = useStoreActions(actions=>actions.setActiveLiveCodePeer) 
 
     console.log('rendering ChatLeftPanel') ; 
@@ -36,6 +35,7 @@ const ChatLeftPanel = () => {
             backgroundColor: '#c4c4c4',
             width:'20%', 
             height:'100vh',
+            zIndex:1 , 
             boxShadow: '0.1px -5px 15px black',
         }} >
             {peersComponent}
@@ -43,4 +43,4 @@ const ChatLeftPanel = () => {
     );
 }
 
-export default ChatLeftPanel
+export default ChatUsersListPanel

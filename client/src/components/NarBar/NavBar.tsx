@@ -7,9 +7,9 @@ export const NavBar = (props: { navPath: NavLinkPaths} ) => {
     return (
         <>
             {/* EMPTY Navbar TO push the below dom content down */}
-            <Menu inverted size='large'> </Menu>
+            <Menu inverted size='large' compact > </Menu>
 
-            <Menu inverted size='large' fixed='top'  >
+            <Menu inverted size='large' fixed='top' compact  >
                 <NavLink to={NavLinkPaths.livecode} draggable={false}>
                     <Menu.Item active={props.navPath===NavLinkPaths.livecode} icon={<Icon name='code branch'/>} name='Live Code' link />
                 </NavLink>

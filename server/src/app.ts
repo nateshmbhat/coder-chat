@@ -31,7 +31,7 @@ app.get('/', function (req : express.Request, res : express.Response) {
   res.send('index page')
 });
 
-io.of('/chat').on('connect', (soc : SocketIO.Socket)=>{
+io.on('connect', (soc : SocketIO.Socket)=>{
   storeActions.addConnectedClient({socketid:soc.id}) ; 
   registerCallbacks(soc , io) ;  
 })

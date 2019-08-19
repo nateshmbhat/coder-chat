@@ -3,7 +3,6 @@ import { action , createStore , createTypedHooks } from 'easy-peasy';
 import { getSessionId } from '../Utils/utils';
 
 const initialState: GlobalStoreType = {
-    totalRows: Math.ceil(window.innerHeight / 20),
     internetAccess: false,
     serverConnectedFlag: false,
     sessions: [{id : 'randomoijoijfd' , date : new Date()}],

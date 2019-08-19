@@ -13,7 +13,7 @@ const registerCallbacks = (sock : SocketIOClient.Socket )=>{
 
       globalStore.getActions().addChatMessage(chat) ; 
     })
-
+  
     sock.on(SocketChannel.LIVECODETEXT , (msgObject:LiveCodePeerMessage)=>{
       console.log("message from server : " , msgObject ) ; 
       if(Object.keys(msgObject).length>0){
@@ -25,8 +25,7 @@ const registerCallbacks = (sock : SocketIOClient.Socket )=>{
       console.log('connected to server' )
       sendGetLiveCodeMapToServer() 
     })
-}    
-
+}
 
 
 export default registerCallbacks ;

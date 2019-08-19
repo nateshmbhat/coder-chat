@@ -41,7 +41,6 @@ export interface LiveCodePeerMessage extends ChatMessageType{
 };
 
 export interface GlobalStoreType {
-    totalRows: number,
     serverConnectedFlag: boolean,
     internetAccess: boolean,
     sessions: SessionType[],

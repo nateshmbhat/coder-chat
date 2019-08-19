@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import AceEditor from 'react-ace'
 import { Button, Dropdown, Icon, Modal, Header, Message } from 'semantic-ui-react';
-import { sendLiveCodeText } from '../handlers/chat/sender';
-import { ACE_EDITOR_LANGUAGES, ACE_EDITOR_THEMES, senderToLiveCodeMap, GlobalStoreType } from '../types/types';
+import { sendLiveCodeText } from '../../handlers/chat/sender';
+import { ACE_EDITOR_LANGUAGES, ACE_EDITOR_THEMES, senderToLiveCodeMap, GlobalStoreType } from '../../types/types';
 import 'brace/keybinding/vim';
-import { useStoreActions, useStoreState } from '../store/globalStore';
-import { useMessage } from '../hooks/useMessage';
+import { useStoreActions, useStoreState } from '../../store/globalStore';
+import { useMessage } from '../../hooks/useMessage';
 import {saveAs} from 'file-saver' ; 
 
 ACE_EDITOR_LANGUAGES.forEach(lang => {
