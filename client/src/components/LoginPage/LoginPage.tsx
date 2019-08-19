@@ -30,7 +30,7 @@ const LoginPage = () => {
         setStoreUserName(username);
         localStorage.setItem(LocalStorageItemNames.CODER_CHAT_USER_NAME, username);
         localStorage.setItem(LocalStorageItemNames.CODER_CHAT_USER_EMAILID, userid);
-        history.push('/chat');
+        history.push('/livecode');
     }
 
     return (

@@ -23,7 +23,12 @@ const registerCallbacks = (sock : SocketIOClient.Socket )=>{
 
     sock.on('connect', ()=>{
       console.log('connected to server' )
+      globalStore.getActions().setServerConnectedFlag(true) ; 
       sendGetLiveCodeMapToServer() 
+    })
+
+    sock.on('disconnect' , ()=>{
+      globalStore.getActions().setServerConnectedFlag(false) ; 
     })
 }
 

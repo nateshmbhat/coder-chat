@@ -8,7 +8,7 @@ const LiveCodeEditor = React.lazy(()=> import("../LiveCodePage/LiveCodeEditor"))
 
 
 const ChatSection =()=> {
-    const [chatMessages ,myUserId ] = useStoreState((state)=>[ state.chatMessages , state.myUserId , state.liveCodingOpen])
+    const [chatMessages ,myUserId ] = useStoreState((state)=>[ state.chatMessages , state.myUserId])
 
     const chatMessagesComponent = chatMessages.map((chat,idx)=>{
         console.log('props.myuserid = ' , myUserId , ' chat.senderid = ' , chat.senderid) ; 
@@ -24,6 +24,7 @@ const ChatSection =()=> {
             overflowY:'scroll' , 
             position:'relative',
             width:'100%',
+            height:'100%',
         }} >
         <ChatSendPanel/>
 

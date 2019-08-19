@@ -92,7 +92,7 @@ const LiveCodeEditor = () => {
                     theme={theme}
                     name="my-code-editor-main"
                     value={activeLiveCodePeerId == null ? liveCodeText : liveCodePeersToCodeMap[activeLiveCodePeerId].msg}
-                    style={{ height: '100%', width: '100%', marginTop: '3px' }}
+                    style={{ height: '100%', width: '100%', }}
                     onChange={codeChangeHandler}
                     onFocus={e => setShowSettings(false)}
                     onCopy={e => showInfoMessage('Code copied' , 'Info') }

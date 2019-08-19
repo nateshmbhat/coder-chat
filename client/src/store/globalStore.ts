@@ -3,13 +3,14 @@ import { action , createStore , createTypedHooks } from 'easy-peasy';
 import { getSessionId } from '../Utils/utils';
 
 const initialState: GlobalStoreType = {
+    serverIp:'192.168.0.100' , 
+    serverPort:9000, 
     internetAccess: false,
     serverConnectedFlag: false,
     sessions: [{id : 'randomoijoijfd' , date : new Date()}],
     chatMessages: [],
     myUserId: localStorage.getItem(LocalStorageItemNames.CODER_CHAT_USER_EMAILID ) || String((Math.random())) ,
     myUsername: localStorage.getItem(LocalStorageItemNames.CODER_CHAT_USER_NAME) || 'Anonymous' ,
-    liveCodingOpen: false,
     liveCodeText: '',
     liveCodePeersToCodeMap: {},//{myid  : {senderid:'myid' , time : (new Date())  , language :'java' , msg:'int i = 0 ;', sendername:'anonymous' , sessionid:'anonymous'}} , 
     activeLiveCodePeerId : null , 
@@ -25,7 +26,6 @@ const initialState: GlobalStoreType = {
     setUserId: action((state,id)=>{state.myUserId= id}) , 
     setUsername: action((state,name)=>{state.myUsername= name}) , 
     addChatMessage: action((state,chat)=>{state.chatMessages.push(chat)}) , 
-    toggleLiveCodeEditor : action((state)=>{ state.liveCodingOpen = !state.liveCodingOpen}) , 
     addLiveCodePeer : action((state,peer)=>{state.liveCodePeersToCodeMap[peer.senderid] = peer}) , 
 }
 

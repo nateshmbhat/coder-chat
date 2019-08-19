@@ -41,13 +41,14 @@ export interface LiveCodePeerMessage extends ChatMessageType{
 };
 
 export interface GlobalStoreType {
+    serverIp : string , 
+    serverPort : number , 
     serverConnectedFlag: boolean,
     internetAccess: boolean,
     sessions: SessionType[],
     chatMessages: ChatMessageType[],
     myUserId: string,
     myUsername: string,
-    liveCodingOpen: boolean,
     liveCodeText: string,
     liveCodePeersToCodeMap : senderToLiveCodeMap ,
     activeLiveCodePeerId : string|null  , 
@@ -60,7 +61,6 @@ export interface GlobalStoreType {
     addChatMessage: Action<GlobalStoreType,ChatMessageType> , 
     setUsername: Action<GlobalStoreType,string> , 
     setUserId: Action<GlobalStoreType,string> , 
-    toggleLiveCodeEditor: Action<GlobalStoreType,undefined> , 
     setLiveCodeText : Action<GlobalStoreType,string> , 
     addLiveCodePeer : Action<GlobalStoreType,LiveCodePeerMessage>
 }

@@ -33,9 +33,9 @@ const ChatUsersListPanel = () => {
     return (
         <div style={{
             backgroundColor: '#c4c4c4',
-            width:'20%', 
             height:'100vh',
-            zIndex:1 , 
+            position:'relative', 
+            zIndex:10 , 
             boxShadow: '0.1px -5px 15px black',
         }} >
             {peersComponent}
