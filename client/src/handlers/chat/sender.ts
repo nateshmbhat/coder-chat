@@ -1,9 +1,6 @@
-import { chatsocket, initChatSocket } from "./chatInit";
 import { SocketChannel, ChatMessageType, GlobalStoreType, LiveCodePeerMessage } from "../../types/types";
 import { globalStore } from "../../store/globalStore";
 import { getSessionId } from '../../Utils/utils';
-
-initChatSocket() ;
 
 const sendChatMessage=(msgString:string)=>{
 
@@ -16,7 +13,7 @@ const sendChatMessage=(msgString:string)=>{
    storeActions.addChatMessage(chat) ; 
 
    console.log('sending message to server : ' , chat );
-   chatsocket.emit( SocketChannel.CHATMESSAGE , chat  )  ; 
+   storeState.socketioSocket.emit( SocketChannel.CHATMESSAGE , chat  )  ; 
 }
 
 
@@ -28,11 +25,11 @@ const sendLiveCodeText=(codeString:string , language : string)=>{// sends the co
    const message : LiveCodePeerMessage = {msg:codeString, senderid : storeState.myUserId , sendername : storeState.myUsername, sessionid : getSessionId(),time : new Date() , language:language }
 
    console.log('sending message to server : ' , message );
-   chatsocket.emit( SocketChannel.LIVECODETEXT, message  )  ; 
+   storeState.socketioSocket.emit( SocketChannel.LIVECODETEXT, message  )  ; 
 }
 
 const sendGetLiveCodeMapToServer= ()=>{
-   chatsocket.emit(SocketChannel.GET_LIVE_CODE_MAPPING)  ; 
+   globalStore.getState().socketioSocket.emit(SocketChannel.GET_LIVE_CODE_MAPPING)  ; 
 }
 
 

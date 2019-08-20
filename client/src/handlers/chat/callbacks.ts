@@ -8,7 +8,6 @@ const registerCallbacks = (sock : SocketIOClient.Socket )=>{
 
     sock.on(SocketChannel.CHATMESSAGE , (msgObject:MessageReceiveBody)=>{
       console.log("message from server : " , msgObject ) ; 
-
       const chat : ChatMessageType = {msg:msgObject.msg , senderid : msgObject.senderid , sendername : msgObject.sendername || msgObject.senderid , sessionid : getSessionId() ,time : new Date()  }
 
       globalStore.getActions().addChatMessage(chat) ; 
@@ -28,6 +27,7 @@ const registerCallbacks = (sock : SocketIOClient.Socket )=>{
     })
 
     sock.on('disconnect' , ()=>{
+      console.log('disconnected to server' )
       globalStore.getActions().setServerConnectedFlag(false) ; 
     })
 }
