@@ -39,14 +39,7 @@ export const NavBar = (props: { navPath: NavLinkPaths }) => {
                     <Menu.Item name={username} icon={<Icon name='user circle' />} link />
                 </ProfileCredentialsInputDialog>
 
-
-
-                {/* <Menu.Menu position='right'>
-                    <NavLink to={NavLinkPaths.home} draggable={false}>
-                        <Menu.Item name='Home' active={props.navPath===NavLinkPaths.home} icon={<Icon name='home' color='yellow' />} link />
-                    </NavLink>
-                </Menu.Menu> */}
-            </Menu>
+           </Menu>
         </>
     )
 }

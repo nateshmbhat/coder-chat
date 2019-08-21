@@ -8,9 +8,6 @@ import { Flex, FlexItem } from '../Misc';
 
 
 const ChatRoom = () => {
-    if (localStorage.getItem(LocalStorageItemNames.CODER_CHAT_USER_EMAILID) == null) {
-        window.location.href = '/';
-    }
     return (
         <>
             <NavBar navPath={NavLinkPaths.chat} />

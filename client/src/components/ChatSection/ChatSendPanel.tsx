@@ -13,7 +13,7 @@ const ChatSendPanel = () => {
     const [message, setMessage] = useState('');
 
     return (
-            <div style={{ position: 'sticky',  width: '100%' , top:'90%' }}>
+            <div style={{ position: 'sticky',   top:'90%', marginLeft:'20px' , marginRight:'20px' }}>
                     <div style={{ display: 'flex' }} className='mh-1'>
                         <div style={{ flexGrow: 100 }}>
                             <Input
