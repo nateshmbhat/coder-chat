@@ -5,9 +5,12 @@ import { LocalStorageItemNames, GlobalStoreType, NavLinkPaths } from '../../type
 import { useStoreState } from '../../store/globalStore';
 import { NavBar } from '../NarBar/NavBar';
 import { Flex, FlexItem } from '../Misc';
+import useReactRouter from 'use-react-router';
+import { useLoginPageRedirect } from '../../hooks/useLoginPageRedirect';
 
 
-const ChatRoom = () => {
+const ChatPage = () => {
+    useLoginPageRedirect()
     return (
         <>
             <NavBar navPath={NavLinkPaths.chat} />
@@ -26,4 +29,4 @@ const ChatRoom = () => {
     );
 }
 
-export default ChatRoom;
+export default ChatPage;

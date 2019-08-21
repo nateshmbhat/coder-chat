@@ -4,8 +4,10 @@ import { NavLinkPaths } from '../../types/types';
 import LiveCodeEditor from './LiveCodeEditor';
 import ChatUsersListPanel from '../ChatSection/ChatLeftSidePanel';
 import { Flex, DivRelative } from '../Misc';
+import { useLoginPageRedirect } from '../../hooks/useLoginPageRedirect';
 
 export const LiveCodePage = () => {
+    useLoginPageRedirect()
     return <>
         <NavBar navPath={NavLinkPaths.livecode} />
         <Flex>

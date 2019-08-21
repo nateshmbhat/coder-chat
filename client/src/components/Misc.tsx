@@ -1,6 +1,7 @@
 import React, { Children, ReactChildren, ReactNode, useState } from 'react';
 import { Loader, Modal, Input, Button, Container } from 'semantic-ui-react';
 import { globalStore, useStoreState, useStoreActions } from '../store/globalStore';
+import { LoginComponent } from './LoginPage/LoginPage';
 
 const BigLoaderCentered = (props: { inverted?: boolean }) => (<div style={{ position: 'relative', height: '100%' }}>
     <div style={{ position: 'absolute', width: '100%', height: '100%', textAlign: 'center', display: 'flex', alignItems: 'center' }}>
@@ -65,29 +66,12 @@ export const ServerIpInputDialog = (props: { children: ReactNode }) => {
 
 
 export const ProfileCredentialsInputDialog = (props: { children: ReactNode }) => {
-    const [username , useremail] =  useStoreState(s=>[s.myUsername,s.myUserId])
-    const [ setStoreUsername , setStoreUserEmail ] = useStoreActions(a=>[a.setUsername,a.setUserId])
-    const [name, setname] = useState(username)
-    const [email  , setemail] = useState(useremail)
     return <Modal
-        trigger={
-            props.children
-        }
-        header='Edit Name and Email'
-        onActionClick={(e,d)=>{
-            setStoreUserEmail(email)
-            setStoreUsername(name)
-        }}
-        content={
-            <>
-            <div style={{textAlign:'center' , margin:'10px'}}>
-                    <Input onChange={e=>setname(e.target.value)} value={name} label='Name'/>
-                    <Input onChange={e=>setemail(e.target.value)} value={email} label='Email'/>
-            </div>
-            </>
-        }
-        actions={[{ key: 'save', content: 'Save', positive: true }]}
-    />
+    closeIcon
+    header='Edit Username and Email'
+    trigger={ props.children }
+    content={ <LoginComponent/> }
+/>
 }
 
 export { BigLoaderCentered, SizedBox }; 

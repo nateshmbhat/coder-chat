@@ -8,12 +8,12 @@ const LiveCodeEditor = React.lazy(()=> import("../LiveCodePage/LiveCodeEditor"))
 
 
 const ChatSection =()=> {
-    const [chatMessages ,myUserId ] = useStoreState((state)=>[ state.chatMessages , state.myUserId])
+    const [chatMessages ,myUserEmail ] = useStoreState((state)=>[ state.chatMessages , state.myUserEmail])
 
     const chatMessagesComponent = chatMessages.map((chat,idx)=>{
-        console.log('props.myuserid = ' , myUserId , ' chat.senderid = ' , chat.senderid) ; 
+        console.log('props.myUserEmail = ' , myUserEmail , ' chat.senderid = ' , chat.senderid) ; 
         return(
-            <ChatMessage key={idx} msg={chat.msg} sender={chat.sendername} time={chat.time} isMyMessage={myUserId==chat.senderid} />
+            <ChatMessage key={idx} msg={chat.msg} sender={chat.sendername} time={chat.time} isMyMessage={myUserEmail==chat.senderid} />
         );
     })
 

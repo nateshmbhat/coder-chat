@@ -47,7 +47,7 @@ export interface GlobalStoreType {
     internetAccess: boolean,
     sessions: SessionType[],
     chatMessages: ChatMessageType[],
-    myUserId: string,
+    myUserEmail: string,
     myUsername: string,
     liveCodeText: string,
     liveCodePeersToCodeMap : senderToLiveCodeMap ,

@@ -9,7 +9,7 @@ const sendChatMessage=(msgString:string)=>{
    const storeState = globalStore.getState()
    const storeActions = globalStore.getActions() ; 
 
-   const chat : ChatMessageType= {msg:msgString, senderid : storeState.myUserId , sendername : storeState.myUsername, sessionid : getSessionId(),time : new Date() }
+   const chat : ChatMessageType= {msg:msgString, senderid : storeState.myUserEmail , sendername : storeState.myUsername, sessionid : getSessionId(),time : new Date() }
    storeActions.addChatMessage(chat) ; 
 
    console.log('sending message to server : ' , chat );
@@ -22,7 +22,7 @@ const sendLiveCodeText=(codeString:string , language : string)=>{// sends the co
 
    const storeState = globalStore.getState()
 
-   const message : LiveCodePeerMessage = {msg:codeString, senderid : storeState.myUserId , sendername : storeState.myUsername, sessionid : getSessionId(),time : new Date() , language:language }
+   const message : LiveCodePeerMessage = {msg:codeString, senderid : storeState.myUserEmail , sendername : storeState.myUsername, sessionid : getSessionId(),time : new Date() , language:language }
 
    console.log('sending message to server : ' , message );
    storeState.socketioSocket.emit( SocketChannel.LIVECODETEXT, message  )  ; 
