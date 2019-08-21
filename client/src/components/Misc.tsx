@@ -1,6 +1,6 @@
-import React, { Children, ReactChildren, ReactNode, useState } from 'react';
-import { Loader, Modal, Input, Button, Container } from 'semantic-ui-react';
-import { globalStore, useStoreState, useStoreActions } from '../store/globalStore';
+import React, { ReactNode, useState } from 'react';
+import { Loader, Modal, Input} from 'semantic-ui-react';
+import { useStoreState, useStoreActions } from '../store/globalStore';
 import { LoginComponent } from './LoginPage/LoginPage';
 
 const BigLoaderCentered = (props: { inverted?: boolean }) => (<div style={{ position: 'relative', height: '100%' }}>
@@ -41,7 +41,7 @@ export const FlexItem = (props: { children: ReactNode, grow?: number }) => {
 
 export const ServerIpInputDialog = (props: { children: ReactNode }) => {
     const storeServerAddress=  useStoreState(s=>s.serverAddress)
-    const setServerAddress = useStoreActions(a=>a.setServerAddress)
+    const setServerAddress = useStoreActions(a=>a.setServerAddressAndConnect)
     const [address, setaddress] = useState(storeServerAddress)
     return <Modal
         trigger={

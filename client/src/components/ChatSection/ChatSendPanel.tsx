@@ -1,11 +1,6 @@
 import React, { useState } from 'react';
 import { sendChatMessage } from '../../handlers/chat/sender';
-import { connect } from 'react-redux';
-import computerIcon from '../icons/computer.svg';
-import styled from 'styled-components';
-import { Dispatch } from 'redux';
-import { Button, Icon, TextArea, GridColumn, GridRow, Grid, Input, Container } from 'semantic-ui-react';
-import { useStoreState, useStoreActions } from '../../store/globalStore';
+import { Button, Input} from 'semantic-ui-react';
 
 
 const ChatSendPanel = () => {

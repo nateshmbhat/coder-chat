@@ -3,6 +3,8 @@ import { action , createStore , createTypedHooks } from 'easy-peasy';
 import { getSessionId } from '../Utils/utils';
 import openSocket from 'socket.io-client';
 import registerCallbacks from '../handlers/chat/callbacks';
+import { applyMiddleware } from 'redux';
+import logger from 'redux-logger'
 
 const initialState: GlobalStoreType = {
     serverAddress:'192.168.0.100:9000', 
@@ -24,11 +26,12 @@ const initialState: GlobalStoreType = {
     setActiveLiveCodePeer : action((state,peerid)=>{state.activeLiveCodePeerId = peerid ; }) , 
     setInternetAccess : action((state,flag)=>{state.internetAccess = flag ; }) ,
     setLiveCodeText : action((state,text)=>{state.liveCodeText = text}) , 
-    setServerAddress: action((state,address)=>{
+    setServerAddressAndConnect: action((state,address)=>{
         state.serverAddress = address ; 
         if(state.socketioSocket.connected)
         {
             state.socketioSocket.disconnect().io.reconnection(false).removeAllListeners()
+            state.serverConnectedFlag = false ; 
         }
         state.socketioSocket = openSocket(address);
         registerCallbacks(state.socketioSocket)
@@ -42,7 +45,9 @@ const initialState: GlobalStoreType = {
 
 registerCallbacks(initialState.socketioSocket) ; 
 
-const globalStore = createStore(initialState) ; 
+const globalStore = createStore(initialState , {
+    middleware : [logger]
+}) ; 
 // Provide our model to the helper      👇
 const typedHooks = createTypedHooks<GlobalStoreType>();
 

@@ -1,11 +1,7 @@
 import React, { Suspense } from 'react' ; 
 import { ChatMessage } from "./ChatMessage";
-import { ChatMessageType, GlobalStoreType } from '../../types/types';
-import { BigLoaderCentered } from "../Misc";
 import { useStoreState } from '../../store/globalStore';
 import ChatSendPanel from './ChatSendPanel';
-const LiveCodeEditor = React.lazy(()=> import("../LiveCodePage/LiveCodeEditor"))  ;
-
 
 const ChatSection =()=> {
     const [chatMessages ,myUserEmail ] = useStoreState((state)=>[ state.chatMessages , state.myUserEmail])

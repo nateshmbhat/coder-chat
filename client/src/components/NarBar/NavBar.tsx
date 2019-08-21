@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Menu, Button, Icon, Popup, Modal } from 'semantic-ui-react';
+import { Menu, Icon, Popup} from 'semantic-ui-react';
 import { NavLinkPaths } from '../../types/types';
 import { NavLink } from 'react-router-dom';
 import { useStoreState } from '../../store/globalStore';

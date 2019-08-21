@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Suspense } from 'react';
-import { Button, Dropdown, Icon, Modal, Header, Message } from 'semantic-ui-react';
+import { Button, Dropdown, Icon, Message } from 'semantic-ui-react';
 import { ACE_EDITOR_LANGUAGES, ACE_EDITOR_THEMES, senderToLiveCodeMap, GlobalStoreType } from '../../types/types';
 import { useStoreState } from '../../store/globalStore';
 import { useMessage } from '../../hooks/useMessage';

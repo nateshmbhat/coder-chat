@@ -1,11 +1,9 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import ChatSection from './ChatSection';
 import ChatUserListPanel from './ChatLeftSidePanel';
-import { LocalStorageItemNames, GlobalStoreType, NavLinkPaths } from '../../types/types';
-import { useStoreState } from '../../store/globalStore';
+import { NavLinkPaths } from '../../types/types';
 import { NavBar } from '../NarBar/NavBar';
 import { Flex, FlexItem } from '../Misc';
-import useReactRouter from 'use-react-router';
 import { useLoginPageRedirect } from '../../hooks/useLoginPageRedirect';
 
 

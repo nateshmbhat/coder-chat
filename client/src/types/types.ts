@@ -60,7 +60,7 @@ export interface GlobalStoreType {
     setServerConnectedFlag: Action<GlobalStoreType,boolean> , 
     addChatMessage: Action<GlobalStoreType,ChatMessageType> , 
     setUsername: Action<GlobalStoreType,string> , 
-    setServerAddress: Action<GlobalStoreType,string> , 
+    setServerAddressAndConnect: Action<GlobalStoreType,string> , 
     setUserId: Action<GlobalStoreType,string> , 
     setLiveCodeText : Action<GlobalStoreType,string> , 
     addLiveCodePeer : Action<GlobalStoreType,LiveCodePeerMessage>
