@@ -1,4 +1,5 @@
 import React, { useState, useEffect, Suspense } from 'react';
+import 'semantic-ui-css/semantic.min.css' ; 
 import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
 import { BigLoaderCentered } from './components/Misc';
 import { LiveCodePage } from './components/LiveCodePage/LiveCodePage';

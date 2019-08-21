@@ -1,28 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import AceEditor from 'react-ace'
+import React, { useState, useEffect, Suspense } from 'react';
 import { Button, Dropdown, Icon, Modal, Header, Message } from 'semantic-ui-react';
-import { sendLiveCodeText } from '../../handlers/chat/sender';
 import { ACE_EDITOR_LANGUAGES, ACE_EDITOR_THEMES, senderToLiveCodeMap, GlobalStoreType } from '../../types/types';
-import 'brace/keybinding/vim';
-import { useStoreActions, useStoreState } from '../../store/globalStore';
+import { useStoreState } from '../../store/globalStore';
 import { useMessage } from '../../hooks/useMessage';
-import {saveAs} from 'file-saver' ; 
+import { saveAs } from 'file-saver';
+import { BigLoaderCentered } from '../Misc';
 
-ACE_EDITOR_LANGUAGES.forEach(lang => {
-    require(`brace/mode/${lang}`);
-    require(`brace/snippets/${lang}`);
-});
-
-ACE_EDITOR_THEMES.forEach(theme => {
-    require(`brace/theme/${theme}`);
-});
-
+const AceEditorComponent  = React.lazy(()=>import('./AceEditor')); 
 
 const LiveCodeEditor = () => {
 
-    const [liveCodeText, activeLiveCodePeerId, liveCodePeersToCodeMap, myUsername] = useStoreState(state => [state.liveCodeText, state.activeLiveCodePeerId, state.liveCodePeersToCodeMap , state.myUsername]);
-    const setLiveCodeText = useStoreActions(actions=>actions.setLiveCodeText)
-    const {popupMessage,showInfoMessage} = useMessage() ; 
+    const [liveCodeText, activeLiveCodePeerId, liveCodePeersToCodeMap, myUsername] = useStoreState(state => [state.liveCodeText, state.activeLiveCodePeerId, state.liveCodePeersToCodeMap, state.myUsername]);
+    const { popupMessage, showInfoMessage } = useMessage();
 
     const [theme, setTheme] = useState('monokai');
     const [vimEnabled, setVimEnabled] = useState(false);
@@ -30,13 +19,6 @@ const LiveCodeEditor = () => {
     const [showSettings, setShowSettings] = useState(false);
 
 
-    const codeChangeHandler = (value: string, event: any) => {
-        setLiveCodeText(value);
-        if (value !== liveCodeText) {
-            //If the user has entered something new , then send this to the server
-            sendLiveCodeText(value, codeLanguage);
-        }
-    }
     const activePeer = activeLiveCodePeerId;
 
     const EditorSettingsPanel = () => (
@@ -69,9 +51,9 @@ const LiveCodeEditor = () => {
 
             <Button toggle active={vimEnabled} onClick={e => setVimEnabled(!vimEnabled)}>Vim</Button>
             <Button onClick={e => {
-                var blob = new Blob([ activePeer==null?liveCodeText:liveCodePeersToCodeMap[activePeer].msg], { type: "text/plain;charset=utf-8" });
-                saveAs(blob, `${activePeer||myUsername}-${codeLanguage}` );
-            }} icon={<Icon name='download'/>} />
+                var blob = new Blob([activePeer == null ? liveCodeText : liveCodePeersToCodeMap[activePeer].msg], { type: "text/plain;charset=utf-8" });
+                saveAs(blob, `${activePeer || myUsername}-${codeLanguage}`);
+            }} icon={<Icon name='download' />} />
         </div>
     );
 
@@ -87,27 +69,17 @@ const LiveCodeEditor = () => {
                     {showSettings && <EditorSettingsPanel />}
                 </div>
 
-                <AceEditor
-                    mode={codeLanguage}
-                    theme={theme}
-                    name="my-code-editor-main"
-                    value={activeLiveCodePeerId == null ? liveCodeText : liveCodePeersToCodeMap[activeLiveCodePeerId].msg}
-                    style={{ height: '100%', width: '100%', }}
-                    onChange={codeChangeHandler}
-                    onFocus={e => setShowSettings(false)}
-                    onCopy={e => showInfoMessage('Code copied' , 'Info') }
-                    focus
-                    keyboardHandler={vimEnabled ? 'vim' : 'default'}
-                    readOnly={activeLiveCodePeerId != null}
-                    setOptions={{
-                        animatedScroll: true,
-                        displayIndentGuides: true,
-                        enableBasicAutocompletion: true,
-                        enableLiveAutocompletion: true,
-                        fontSize: 18,
-                    }}
-                />
+                <Suspense fallback={<BigLoaderCentered/>}>
+                    <AceEditorComponent
+                        codeLanguage={codeLanguage}
+                        setShowSettings={setShowSettings}
+                        theme={theme}
+                        vimEnabled={vimEnabled}
+                    />
+                </Suspense>
+
             </div>
+
         </>
 
     );

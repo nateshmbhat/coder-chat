@@ -5,7 +5,6 @@ import App from './App';
 import {Provider} from 'react-redux'
 import * as serviceWorker from './serviceWorker';
 import { globalStore } from './store/globalStore';
-import 'semantic-ui-css/semantic.min.css' ; 
 import { StoreProvider } from 'easy-peasy';
 
 ReactDOM.render( 

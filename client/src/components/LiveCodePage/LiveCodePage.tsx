@@ -17,7 +17,6 @@ export const LiveCodePage = () => {
             </div>
             <div style={{ flexGrow: 10 }}>
                 <LiveCodeEditor />
-
             </div>
         </Flex>
     </>
