@@ -1,5 +1,5 @@
 
-enum SocketChannels {
+export enum SocketChannel {
     CHATMESSAGE = 'chat-message',
     LIVECODETEXT = 'live-code-text' , 
     GET_LIVE_CODE_MAPPING = 'get-live-code-mapping', 
@@ -12,20 +12,20 @@ export enum ReduxActionTypes{
 };
 
 
-interface ChatMessageSendingBody {
+export interface ChatMessageSendingBody {
     senderSocketId: string,
     senderid: string,
     sendername: string,
     msg: string
 }
 
-interface MessageReceiveBody {
+export interface MessageReceiveBody {
     senderid: string
     sendername: string,
     msg: string
 }
 
-interface LiveMessageType extends MessageReceiveBody {
+export interface LiveMessageType extends MessageReceiveBody {
     language: string
 }
 
@@ -51,9 +51,7 @@ export interface LiveCodePeerToCodeMap  {
 }
 
 
-interface StoreType {
+export interface StoreType {
     connectedClients: ConnectedClient[] , 
     liveCodePeersToCodeMap: LiveCodePeerToCodeMap,
 }
-
-export { SocketChannels as SocketChannel, ChatMessageSendingBody, MessageReceiveBody as ChatMessageReceiveBody, LiveMessageType, StoreType }; 

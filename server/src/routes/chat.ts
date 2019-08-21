@@ -1,5 +1,5 @@
 import socketIo from "socket.io"; 
-import { SocketChannel, ChatMessageReceiveBody, ChatMessageSendingBody, LiveMessageType } from "../types/types";
+import { SocketChannel, MessageReceiveBody, ChatMessageSendingBody, LiveMessageType } from "../types/types";
 import { globalStore, storeActions } from '../store/reducer';
 
 const registerCallbacks = (soc : socketIo.Socket, io : SocketIO.Server )=>{
@@ -11,7 +11,7 @@ const registerCallbacks = (soc : socketIo.Socket, io : SocketIO.Server )=>{
     })
 
   
-    soc.on( SocketChannel.CHATMESSAGE  , (msgObject : ChatMessageReceiveBody)=>{
+    soc.on( SocketChannel.CHATMESSAGE  , (msgObject : MessageReceiveBody)=>{
       console.log('message from : ' , soc.id  , ' : ', msgObject) ; 
       
       const messageToSend : ChatMessageSendingBody = {
