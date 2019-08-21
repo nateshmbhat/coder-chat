@@ -3,11 +3,11 @@ import { Menu, Button, Icon, Popup, Modal } from 'semantic-ui-react';
 import { NavLinkPaths } from '../../types/types';
 import { NavLink } from 'react-router-dom';
 import { useStoreState } from '../../store/globalStore';
-import { ServerIpInputDialog } from '../Misc';
+import { ServerIpInputDialog, ProfileCredentialsInputDialog } from '../Misc';
 
 export const NavBar = (props: { navPath: NavLinkPaths }) => {
 
-    const serverConnected = useStoreState(s => s.serverConnectedFlag);
+    const [serverConnected , username] = useStoreState(s => [s.serverConnectedFlag,s.myUsername]);
 
     return (
         <>
@@ -34,6 +34,12 @@ export const NavBar = (props: { navPath: NavLinkPaths }) => {
                 <ServerIpInputDialog>
                     <Menu.Item name='Server Setup' icon={<Icon name='connectdevelop' />} link />
                 </ServerIpInputDialog>
+
+                <ProfileCredentialsInputDialog>
+                    <Menu.Item name={username} icon={<Icon name='user circle' />} link />
+                </ProfileCredentialsInputDialog>
+
+
 
                 {/* <Menu.Menu position='right'>
                     <NavLink to={NavLinkPaths.home} draggable={false}>

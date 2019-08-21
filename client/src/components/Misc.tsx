@@ -63,4 +63,31 @@ export const ServerIpInputDialog = (props: { children: ReactNode }) => {
 
 }
 
+
+export const ProfileCredentialsInputDialog = (props: { children: ReactNode }) => {
+    const [username , useremail] =  useStoreState(s=>[s.myUsername,s.myUserId])
+    const [ setStoreUsername , setStoreUserEmail ] = useStoreActions(a=>[a.setUsername,a.setUserId])
+    const [name, setname] = useState(username)
+    const [email  , setemail] = useState(useremail)
+    return <Modal
+        trigger={
+            props.children
+        }
+        header='Edit Name and Email'
+        onActionClick={(e,d)=>{
+            setStoreUserEmail(email)
+            setStoreUsername(name)
+        }}
+        content={
+            <>
+            <div style={{textAlign:'center' , margin:'10px'}}>
+                    <Input onChange={e=>setname(e.target.value)} value={name} label='Name'/>
+                    <Input onChange={e=>setemail(e.target.value)} value={email} label='Email'/>
+            </div>
+            </>
+        }
+        actions={[{ key: 'save', content: 'Save', positive: true }]}
+    />
+}
+
 export { BigLoaderCentered, SizedBox }; 

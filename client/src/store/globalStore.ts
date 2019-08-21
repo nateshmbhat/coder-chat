@@ -28,7 +28,7 @@ const initialState: GlobalStoreType = {
         state.serverAddress = address ; 
         if(state.socketioSocket.connected)
         {
-            state.socketioSocket.disconnect().removeAllListeners()
+            state.socketioSocket.disconnect().io.reconnection(false).removeAllListeners()
         }
         state.socketioSocket = openSocket(address);
         registerCallbacks(state.socketioSocket)
