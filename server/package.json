@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon dist/index.js",
-    "dev": "nodemon src/app.ts",
+    "start-compiled": "nodemon dist/index.js",
+    "start": "nodemon src/app.ts",
     "build": "tsc -p .",
     "clean": "rm dist -rf"
   },
@@ -33,6 +33,7 @@
     "@types/node": "^12.0.2",
     "@types/redux-logger": "^3.0.7",
     "@types/socket.io": "^2.1.2",
+    "cloudnode-cli": "^0.2.23",
     "nodemon": "^1.19.0",
     "ts-node": "^8.1.0",
     "typescript": "^3.4.5"
