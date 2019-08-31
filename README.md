@@ -2,11 +2,24 @@
 A webapp built with react and express that is useful during coding sessions and other use cases that involve chatting and coding.
 
 ## Features :
++ Code transparently in a team with everyone being able to see everyone else's code in realtime.
++ Run any number of servers , each forming its own subgroup for communication and code sharing.
 + Chat with all the members currenlty using the app to receive realtime chat updates.
 + A fully featured code editor with options for theme customizations and multiple language support.
 + Live code editor supports multiple languages with syntax highlights and also supports **vim** keybindings.
 + Syncs code from various users of the app in the network updates in real time letter by letter with corresponding language highlights.
 + Watch a user in the network code live from the shown user's list who are using the app.
+
+
+
+## Usage :
++ Go to [coderchat](coderchat.netlify.com) website.
++ Start a server in your system by doing the following : 
+    + go inside the `server` folder.
+    + run `npm i` command to install dependencies (first run)
+    + run `npm start` to start the server.
+    + Open a new terminal and go to the same `server` folder.
+    + Now enter command `npm run expose  -- --port 9000`  where 9000 is the port number which you can change .
 
 
 

@@ -5,11 +5,11 @@
   "scripts": {
     "start-compiled": "nodemon dist/index.js",
     "start": "nodemon src/app.ts",
+    "expose": "lt",
     "build": "tsc -p .",
     "clean": "rm dist -rf"
   },
   "dependencies": {
-    "@babel/register": "^7.4.4",
     "cookie-parser": "~1.4.4",
     "cors": "^2.8.5",
     "debug": "~2.6.9",
@@ -23,6 +23,7 @@
   },
   "devDependencies": {
     "@babel/cli": "^7.4.4",
+    "@babel/register": "^7.4.4",
     "@babel/core": "^7.4.4",
     "@babel/node": "^7.2.2",
     "@babel/preset-env": "^7.4.4",
@@ -34,6 +35,8 @@
     "@types/redux-logger": "^3.0.7",
     "@types/socket.io": "^2.1.2",
     "cloudnode-cli": "^0.2.23",
+    "concurrently": "^4.1.2",
+    "localtunnel": "^1.9.2",
     "nodemon": "^1.19.0",
     "ts-node": "^8.1.0",
     "typescript": "^3.4.5"
