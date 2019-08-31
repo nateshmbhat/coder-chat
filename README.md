@@ -19,7 +19,7 @@ A webapp built with react and express that is useful during coding sessions and 
     + run `npm i` command to install dependencies (first run)
     + run `npm start` to start the server.
     + Open a new terminal and go to the same `server` folder.
-    + Now enter command `npm run expose  -- --port 9000`  where 9000 is the port number which you can change .
+    + Now enter command `npm run expose  -- --port 9000`  where 9000 is the default port number on which server is running.
 
 
 
