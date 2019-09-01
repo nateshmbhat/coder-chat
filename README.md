@@ -13,13 +13,14 @@ A webapp built with react and express that is useful during coding sessions and 
 
 
 ## Usage :
-+ Go to [coderchat](coderchat.netlify.com) website.
 + Start a server in your system by doing the following : 
     + go inside the `server` folder.
     + run `npm i` command to install dependencies (first run)
     + run `npm start` to start the server.
     + Open a new terminal and go to the same `server` folder.
-    + Now enter command `npm run expose  -- --port 9000`  where 9000 is the default port number on which server is running.
+    + Now enter command `npm run expose  -- --port 9000`  where 9000 is the default port number on which server is running. This will give a url link that is accessible globally.
++ Go to [coderchat](coderchat.netlify.com) website and click on `Server Setup` option and paste the above generated URL link there. 
++ Now any group of users on the internet who enter the above url link will be able to chat and use the live coding feature seamlessly :)
 
 
 
