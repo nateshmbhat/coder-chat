@@ -1,5 +1,5 @@
 import AceEditor from 'react-ace';
-import React, { Suspense } from 'react'
+import React, { Suspense, useContext } from 'react'
 import { ACE_EDITOR_LANGUAGES, ACE_EDITOR_THEMES } from '../../types/types';
 import { BigLoaderCentered } from '../Misc';
 import 'brace/keybinding/vim';
@@ -7,6 +7,7 @@ import { LiveCodePeerToCodeMap } from '../../../../server/src/types/types';
 import { useMessage } from '../../hooks/useMessage';
 import { sendLiveCodeText } from '../../handlers/chat/sender';
 import { useStoreActions, useStoreState } from '../../store/globalStore';
+import { EditorContext } from './LiveCodeEditor';
 
 
 ACE_EDITOR_LANGUAGES.forEach(lang => {
@@ -20,10 +21,7 @@ ACE_EDITOR_THEMES.forEach(theme => {
 
 
 const AceEditorComponent = (props : {
-    vimEnabled : boolean , 
     setShowSettings : (v:boolean)=>void , 
-    theme : string , 
-    codeLanguage : string , 
 }) => {
 
 
@@ -31,7 +29,7 @@ const AceEditorComponent = (props : {
 
     const setLiveCodeText = useStoreActions(actions => actions.setLiveCodeText)
 
-    const {vimEnabled , setShowSettings , theme , codeLanguage} = props
+    const {vimEnabled,fontSize , theme , codeLanguage } = useContext(EditorContext) ; 
 
     const codeChangeHandler = (value: string, event: any) => {
         setLiveCodeText(value);
@@ -52,7 +50,7 @@ const AceEditorComponent = (props : {
             value={activeLiveCodePeerId == null ? liveCodeText : liveCodePeersToCodeMap[activeLiveCodePeerId].msg}
             style={{ height: '100%', width: '100%', }}
             onChange={codeChangeHandler}
-            onFocus={(e: any) => setShowSettings(false)}
+            onFocus={(e: any) => props.setShowSettings(false)}
             onCopy={(e: any) => showInfoMessage('Code copied', 'Info')}
             focus
             keyboardHandler={vimEnabled ? 'vim' : 'default'}
@@ -62,11 +60,9 @@ const AceEditorComponent = (props : {
                 displayIndentGuides: true,
                 enableBasicAutocompletion: true,
                 enableLiveAutocompletion: true,
-                fontSize: 18,
+                fontSize: fontSize,
             }}
         />
-
-
 }
 
 export default AceEditorComponent ; 

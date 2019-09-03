@@ -1,12 +1,15 @@
-import React, { useState, useEffect, Suspense } from 'react';
-import { Button, Dropdown, Icon, Message } from 'semantic-ui-react';
+import React, { useState, useEffect, Suspense, createContext, useContext } from 'react';
+import { Button, Dropdown, Icon, Message, Popup } from 'semantic-ui-react';
 import { ACE_EDITOR_LANGUAGES, ACE_EDITOR_THEMES, senderToLiveCodeMap, GlobalStoreType } from '../../types/types';
 import { useStoreState } from '../../store/globalStore';
 import { useMessage } from '../../hooks/useMessage';
 import { saveAs } from 'file-saver';
 import { BigLoaderCentered } from '../Misc';
 
-const AceEditorComponent  = React.lazy(()=>import('./AceEditor')); 
+const AceEditorComponent = React.lazy(() => import('./AceEditor'));
+
+
+export const EditorContext = createContext({ theme: 'monokai', vimEnabled: false, codeLanguage: 'java', showSettings: false, fontSize: 18 })
 
 const LiveCodeEditor = () => {
 
@@ -17,7 +20,7 @@ const LiveCodeEditor = () => {
     const [vimEnabled, setVimEnabled] = useState(false);
     const [codeLanguage, setCodeLanguage] = useState('java');
     const [showSettings, setShowSettings] = useState(false);
-
+    const [fontSize, setFontSize] = useState(18);
 
     const activePeer = activeLiveCodePeerId;
 
@@ -49,12 +52,32 @@ const LiveCodeEditor = () => {
             }
             } />
 
-            <Button toggle active={vimEnabled} onClick={e => setVimEnabled(!vimEnabled)}>Vim</Button>
-            <Button onClick={e => {
-                var blob = new Blob([activePeer == null ? liveCodeText : liveCodePeersToCodeMap[activePeer].msg], { type: "text/plain;charset=utf-8" });
-                saveAs(blob, `${activePeer || myUsername}-${codeLanguage}`);
-            }} icon={<Icon name='download' />} />
-        </div>
+            <Popup trigger={
+
+                <Button toggle active={vimEnabled} onClick={e => setVimEnabled(!vimEnabled)}>Vim</Button>
+            }
+            >Toggle Vim mode</Popup>
+            <Popup trigger={
+
+                <Button onClick={e => {
+                    var blob = new Blob([activePeer == null ? liveCodeText : liveCodePeersToCodeMap[activePeer].msg], { type: "text/plain;charset=utf-8" });
+                    saveAs(blob, `${activePeer || myUsername}-${codeLanguage}`);
+                }} icon={<Icon name='download' />} />
+
+            }
+            >Download Code</Popup>
+            <Popup position='bottom center' trigger={
+
+                <Button.Group>
+                    <Button icon={<Icon name='plus' />} onClick={() => setFontSize(fontSize + 1)}></Button>
+                    <Button.Or />
+                    <Button icon='minus' onClick={() => setFontSize(fontSize - 1)}></Button>
+                </Button.Group>
+            }>
+                Change Font Size
+            </Popup>
+
+        </div >
     );
 
     return (
@@ -69,17 +92,21 @@ const LiveCodeEditor = () => {
                     {showSettings && <EditorSettingsPanel />}
                 </div>
 
-                <Suspense fallback={<BigLoaderCentered/>}>
-                    <AceEditorComponent
-                        codeLanguage={codeLanguage}
-                        setShowSettings={setShowSettings}
-                        theme={theme}
-                        vimEnabled={vimEnabled}
-                    />
+                <Suspense fallback={<BigLoaderCentered />}>
+                    <EditorContext.Provider value={
+                        {
+                            theme: theme,
+                            vimEnabled: vimEnabled,
+                            codeLanguage: codeLanguage,
+                            showSettings: showSettings,
+                            fontSize: fontSize
+                        }
+                    }  >
+                        <AceEditorComponent setShowSettings={setShowSettings} />
+                    </EditorContext.Provider>
                 </Suspense>
 
             </div>
-
         </>
 
     );
