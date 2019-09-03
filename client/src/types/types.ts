@@ -7,7 +7,7 @@ enum SocketChannel {
     GET_LIVE_CODE_MAPPING = 'get-live-code-mapping', 
 };
 
-const ACE_EDITOR_LANGUAGES = [ "java","c_cpp", "javascript", "python", "html"];
+const ACE_EDITOR_LANGUAGES = [ "java","c_cpp", "javascript", "python", "html","markdown","css"];
   
 const ACE_EDITOR_THEMES = [ "monokai", "github", "tomorrow", 'tomorrow_night_blue','pastel_on_dark','merbivore','dracula','cobalt','clouds','chaos','ambiance', "kuroir", "twilight", "xcode", "textmate", "solarized_dark", "solarized_light", "terminal" ];
 
