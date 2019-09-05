@@ -27,7 +27,8 @@ export enum NavLinkPaths {
 
 enum LocalStorageItemNames { //this is used to store data locally in localstorage with either of the following enumerations.
     CODER_CHAT_USER_NAME = 'coder-chat-user-name'  ,
-    CODER_CHAT_USER_EMAILID = 'coder-chat-user-email'
+    CODER_CHAT_USER_EMAILID = 'coder-chat-user-email' , 
+    CODER_CHAT_SERVER_ADDRESS = 'coder-chat-server-address',
 }
 
 enum Colors{

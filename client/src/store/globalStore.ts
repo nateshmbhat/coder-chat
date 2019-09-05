@@ -6,7 +6,7 @@ import registerCallbacks from '../handlers/chat/callbacks';
 import logger from 'redux-logger'
 
 const initialState: GlobalStoreType = {
-    serverAddress:'', 
+    serverAddress: localStorage.getItem(LocalStorageItemNames.CODER_CHAT_SERVER_ADDRESS) || '', 
     socketioSocket : openSocket('192.168.0.100:9000') , 
     internetAccess: false,
     serverConnectedFlag: false,
@@ -32,6 +32,7 @@ const initialState: GlobalStoreType = {
             state.socketioSocket.disconnect().io.reconnection(false).removeAllListeners()
             state.serverConnectedFlag = false ; 
         }
+        localStorage.setItem(LocalStorageItemNames.CODER_CHAT_SERVER_ADDRESS , address) ; 
         state.socketioSocket = openSocket(address);
         registerCallbacks(state.socketioSocket)
     }) , 
