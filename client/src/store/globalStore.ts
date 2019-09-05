@@ -3,11 +3,10 @@ import { action , createStore , createTypedHooks } from 'easy-peasy';
 import { getSessionId } from '../Utils/utils';
 import openSocket from 'socket.io-client';
 import registerCallbacks from '../handlers/chat/callbacks';
-import { applyMiddleware } from 'redux';
 import logger from 'redux-logger'
 
 const initialState: GlobalStoreType = {
-    serverAddress:'192.168.0.100:9000', 
+    serverAddress:'', 
     socketioSocket : openSocket('192.168.0.100:9000') , 
     internetAccess: false,
     serverConnectedFlag: false,

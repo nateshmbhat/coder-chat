@@ -14,16 +14,16 @@ export const LoginPage = () => {
 }
 
 export const LoginComponent = () => {
-    const [setStoreUserId, setStoreUserName] = useStoreActions(actions => [actions.setUserId, actions.setUsername]);
+    const [setStoreEmailid, setStoreUserName] = useStoreActions(actions => [actions.setUserId, actions.setUsername]);
     const [storeUsername , storeEmail ] = useStoreState(s=>[s.myUsername,s.myUserEmail])
     const [username, setUsername] = useState(storeUsername);
-    const [userid, setUserId] = useState(storeEmail);
+    const [emailid, setEmailId] = useState(storeEmail);
     const [error, toggleError] = useState(false);
     const { history, location, match } = useReactRouter();
     console.log('history , loc , match = ', history, location, match)
 
     const handleLoginClick = () => {
-        if (!userid.match('^[a-z0-9.]+@gmail\.com$') || !username.match('^[a-zA-Z]{3,}$')) {
+        if (!emailid.match('^[a-z0-9.]+@gmail\.com$')) {
             toggleError(true);
             return;
         }
@@ -31,10 +31,10 @@ export const LoginComponent = () => {
             toggleError(false);
         }
 
-        setStoreUserId(userid);
+        setStoreEmailid(emailid);
         setStoreUserName(username);
         localStorage.setItem(LocalStorageItemNames.CODER_CHAT_USER_NAME, username);
-        localStorage.setItem(LocalStorageItemNames.CODER_CHAT_USER_EMAILID, userid);
+        localStorage.setItem(LocalStorageItemNames.CODER_CHAT_USER_EMAILID, emailid);
         history.push('/livecode');
     }
 
@@ -49,15 +49,15 @@ export const LoginComponent = () => {
                     <Input onChange={e => setUsername(e.target.value)} value={username} placeholder="Your Name" />
 
                     <SizedBox />
-                    <Input onChange={e => setUserId(e.target.value)} value={userid} placeholder="Gmail ID" />
+                    <Input onChange={e => setEmailId(e.target.value)} value={emailid} placeholder="Gmail ID" />
                     <SizedBox />
                     <Button content='Save' icon={<Icon name='paper plane outline' />} onClick={e => handleLoginClick()} />
                 </Segment>
                 {
                     error &&
                     <Message negative>
-                        <Message.Header>Invalid Name or Email entered ! </Message.Header>
-                        <p>Make sure that name field doesn't contain any special characters and E-mail is a valid gmail id.</p>
+                        <Message.Header>Invalid Email entered ! </Message.Header>
+                        <p>Make sure that E-mail is a valid gmail id.</p>
                     </Message>
                 }
 
